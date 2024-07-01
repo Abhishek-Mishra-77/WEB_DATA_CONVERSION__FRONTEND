@@ -11,6 +11,10 @@ const QuestionsDataSection = ({
   changeCurrentCsvDataHandler,
   imageFocusHandler,
 }) => {
+  const blankDefination = templateHeaders?.blankDefination
+    ? templateHeaders?.blankDefination
+    : " ";
+
   return (
     <div className="w-full xl:w-2/3 xl:px-6 mx-auto text-white">
       <div className="my-4 w-full ">
@@ -49,13 +53,13 @@ const QuestionsDataSection = ({
                           type="text"
                           id={`Quantity${i}`}
                           className={`h-7 w-7 text-center text-black rounded text-sm ${
-                            csvCurrentData[key] === "" ||
+                            csvCurrentData[key] === blankDefination ||
                             (csvCurrentData[key] &&
                               typeof csvCurrentData[key] === "string" &&
                               (csvCurrentData[key].includes(
                                 templateHeaders?.patternDefinition
                               ) ||
-                                csvCurrentData[key].includes(" ")))
+                                csvCurrentData[key].includes(blankDefination)))
                               ? "bg-red-500 text-white"
                               : "bg-white"
                           }

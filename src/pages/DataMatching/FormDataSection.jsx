@@ -11,6 +11,9 @@ const FormDataSection = ({
   changeCurrentCsvDataHandler,
   imageFocusHandler,
 }) => {
+  const blankDefination = templateHeaders?.blankDefination
+    ? templateHeaders?.blankDefination
+    : " ";
   return (
     <div className=" border-e lg:w-3/12 xl:w-[20%] order-lg-1 ">
       <div className="overflow-hidden w-[100%] ">
@@ -39,14 +42,17 @@ const FormDataSection = ({
                       type="text"
                       className={`mt-1 border-none p-2 focus:border-transparent text-center rounded-lg focus:outline-none focus:ring-0 sm:text-sm w-48
                                       ${
-                                        csvCurrentData[key] === "" ||
+                                        csvCurrentData[key] ===
+                                          blankDefination ||
                                         (csvCurrentData[key] &&
                                           typeof csvCurrentData[key] ===
                                             "string" &&
                                           (csvCurrentData[key].includes(
                                             templateHeaders?.patternDefinition
                                           ) ||
-                                            csvCurrentData[key].includes(" ")))
+                                            csvCurrentData[key].includes(
+                                              blankDefination
+                                            )))
                                           ? "bg-red-500 text-white"
                                           : "bg-white"
                                       }

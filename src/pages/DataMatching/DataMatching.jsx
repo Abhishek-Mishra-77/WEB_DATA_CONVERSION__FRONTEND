@@ -111,20 +111,81 @@ const DataMatching = () => {
 
   // Api for updating the csv data in the backend
   const onCsvUpdateHandler = async () => {
-    // const csvHeader = csvData[0];
-    // const formData = templateHeaders?.templetedata?.filter(
-    //   (data) => data.fieldType === "formField"
-    // );
+    const csvHeader = csvData[0];
+    const formData = templateHeaders?.templetedata?.filter(
+      (data) => data.fieldType === "formField"
+    );
 
-    // // Assuming you only want to match formFields and their attributes
-    // const filteredFormData = formData.filter((data) =>
-    //   Object.values(csvHeader).includes(data.attribute)
-    // );
+    const filteredFormData = formData
+      .filter((data) => Object.values(csvHeader).includes(data.attribute))
+      .map((data) => {
+        // Find the key corresponding to the value in csvHeader
+        const key = Object.keys(csvHeader).find(
+          (key) => csvHeader[key] === data.attribute
+        );
+        // Append the key to the data object
+        return { ...data, csvHeaderKey: key };
+      });
 
-    // console.log(filteredFormData);
-    // console.log(csvHeader);
-    // // const { dataFieldType, fieldLength , fieldRange } = currentFormData;
-    // return;
+    for (let i = 0; i < filteredFormData.length; i++) {
+      let { dataFieldType, fieldLength, fieldRange, csvHeaderKey } =
+        filteredFormData[i];
+      let keyValue = csvCurrentData[csvHeaderKey];
+      fieldLength = Number(fieldLength);
+      keyValue = keyValue.toString();
+
+      if (dataFieldType === "number") {
+        const [min, max] = fieldRange.split("--").map(Number);
+        const keyValueNumber = Number(keyValue);
+        console.log(keyValue, +fieldLength + " -- > ");
+        if (keyValue.length !== +fieldLength) {
+          toast.warning(
+            `The length of the ${csvHeaderKey} should be ` + fieldLength
+          );
+          return;
+        }
+
+        // Check if keyValue is within the specified range
+        if (keyValueNumber < min || keyValueNumber > max) {
+          toast.warning(
+            `Number ${csvHeaderKey} is out of range. It should be between ${min} and ${max}.`
+          );
+          return;
+        }
+      } else if (dataFieldType === "text") {
+        const isValidText = /^[A-Za-z]+$/.test(keyValue);
+
+        if (keyValue.length !== +fieldLength) {
+          toast.warning(
+            `The length of the ${csvHeaderKey} should be ` + fieldLength
+          );
+          return;
+        }
+
+        if (!isValidText) {
+          toast.warning(`The  ${csvHeaderKey} should be  text`);
+          return;
+        }
+      } else if (dataFieldType === "alphanumeric") {
+        const isValidAlphanumeric = /^[a-zA-Z0-9]+$/.test(keyValue);
+        console.log(`Alphanumeric value ${keyValue} is valid.`);
+
+        console.log(
+          `Alphanumeric value ${keyValue} contains invalid characters.`
+        );
+        if (keyValue.length !== +fieldLength) {
+          toast.warning(
+            `The length of the ${csvHeaderKey} should be ` + fieldLength
+          );
+          return;
+        }
+
+        if (!isValidAlphanumeric) {
+          toast.warning(`Alphanumeric value ${keyValue} is not valid.`);
+          return;
+        }
+      }
+    }
 
     if (!modifiedKeys) {
       onImageHandler("next", currentIndex, csvData, currentTaskData);
@@ -258,7 +319,7 @@ const DataMatching = () => {
           loopedOnce = true;
         }
       }
-    } else if (e.key === "Shift") {
+    } else if ((e.altKey && e.key === "n") || (e.altKey && e.key === "N")) {
       e.preventDefault();
 
       let nextIndex = index + 1;
