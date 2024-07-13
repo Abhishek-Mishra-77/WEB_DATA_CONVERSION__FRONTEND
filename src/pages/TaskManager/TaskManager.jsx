@@ -16,10 +16,11 @@ const TemplateMapping = () => {
   const [assignedUsers, setAssignedUsers] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  const [selectedUser, setSelectedUser] = useState({
-    userId: "",
-    userName: "",
-  });
+  const [selectedUser, setSelectedUser] = useState([]);
+  // {
+  //   userId: "",
+  //   userName: "",
+  // }
   const [taskValue, setTaskValue] = useState({ min: 1, max: null });
   const dataCtx = useContext(dataContext);
   const { id } = useParams();
@@ -72,20 +73,23 @@ const TemplateMapping = () => {
       toast.warning("File Id not present!");
       return;
     }
-    if (!selectedUser.userName || !selectedUser.userId) {
+    if (!selectedUser) {
       toast.warning("Please select the file id or username!");
       return;
     }
 
-    const newAssignedTask = {
-      fileId: fileId,
-      templeteId: id,
-      userId: selectedUser.userId,
-      min: taskValue.min,
-      max: taskValue.max,
-      userName: selectedUser.userName,
-    };
-    setAssignedUsers([...assignedUsers, newAssignedTask]);
+    const newAssignedTasks = selectedUser.map((data) => {
+      const task = {
+        fileId: fileId,
+        templeteId: id,
+        userId: data.userId,
+        min: taskValue.min,
+        max: taskValue.max,
+        userName: data.userName,
+      };
+      return task;
+    });
+    setAssignedUsers([...assignedUsers, ...newAssignedTasks]);
 
     let newMinValue = parseInt(taskValue.max) + 1;
     if (isNaN(newMinValue)) {

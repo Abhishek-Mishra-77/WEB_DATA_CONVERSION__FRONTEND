@@ -317,7 +317,7 @@ const AdminAssined = () => {
                 <div className="overflow-hidden border border-gray-200 md:rounded-lg">
                   <div className="min-w-full divide-y divide-gray-200">
                     <div className="bg-gray-50">
-                      <div className="flex ">
+                      <div className="flex justify-center">
                         <div className="py-3 text text-center font-semibold text-gray-700 w-[100px]">
                           Template
                         </div>
@@ -347,7 +347,7 @@ const AdminAssined = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="divide-y divide-gray-200 bg-white overflow-y-auto h-[250px]">
+                    <div className="divide-y divide-gray-200 bg-white overflow-y-auto h-[250px] ">
                       <AdminCompareTasks
                         compareTask={compareTask}
                         onCompareTaskStartHandler={onCompareTaskStartHandler}

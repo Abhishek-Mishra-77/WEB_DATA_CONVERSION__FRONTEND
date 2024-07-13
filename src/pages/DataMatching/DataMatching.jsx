@@ -153,32 +153,29 @@ const DataMatching = () => {
           return;
         }
       } else if (dataFieldType === "text") {
-        const isValidText = /^[A-Za-z]+$/.test(keyValue);
-
-        if (keyValue.length !== +fieldLength) {
-          toast.warning(
-            `The length of the ${csvHeaderKey} should be ` + fieldLength
-          );
-          return;
-        }
+        console.log("TEXT");
+        const isValidText = /^[A-Za-z\s]+$/.test(keyValue);
+        // if (keyValue.length !== +fieldLength) {
+        //   toast.warning(
+        //     `The length of the ${csvHeaderKey} should be ` + fieldLength
+        //   );
+        //   return;
+        // }
 
         if (!isValidText) {
           toast.warning(`The  ${csvHeaderKey} should be  text`);
           return;
         }
       } else if (dataFieldType === "alphanumeric") {
-        const isValidAlphanumeric = /^[a-zA-Z0-9]+$/.test(keyValue);
+        const isValidAlphanumeric = /^[a-zA-Z0-9\s]+$/.test(keyValue);
         console.log(`Alphanumeric value ${keyValue} is valid.`);
 
-        console.log(
-          `Alphanumeric value ${keyValue} contains invalid characters.`
-        );
-        if (keyValue.length !== +fieldLength) {
-          toast.warning(
-            `The length of the ${csvHeaderKey} should be ` + fieldLength
-          );
-          return;
-        }
+        // if (keyValue.length !== +fieldLength) {
+        //   toast.warning(
+        //     `The length of the ${csvHeaderKey} should be ` + fieldLength
+        //   );
+        //   return;
+        // }
 
         if (!isValidAlphanumeric) {
           toast.warning(`Alphanumeric value ${keyValue} is not valid.`);
@@ -497,10 +494,10 @@ const DataMatching = () => {
 
         const { dataFieldType, fieldLength } = currentFormData;
         if (dataFieldType === "number") {
-          if (!/^[0-9]+$/.test(newValue)) {
+          if (!/^[0-9]*$/.test(newValue)) {
             return {
               ...prevData,
-              [key]: newValue ? previousValue : "",
+              [key]: previousValue || "",
             };
           } else if (newValue.length > +fieldLength) {
             return {
@@ -519,50 +516,51 @@ const DataMatching = () => {
             };
           }
         } else if (dataFieldType === "text") {
-          if (!/^[a-zA-Z]+$/.test(newValue)) {
-            return {
-              ...prevData,
-              [key]: newValue ? previousValue : "",
-            };
-          } else if (newValue.length > +fieldLength) {
+          const filteredValue = newValue.replace(/[^A-Za-z\s]/g, "");
+          console.log("Text" + fieldLength);
+
+          if (filteredValue.length > +fieldLength) {
             return {
               ...prevData,
               [key]: previousValue,
+            };
+          } else if (newValue !== filteredValue) {
+            return {
+              ...prevData,
+              [key]: previousValue || "",
             };
           } else {
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
               [key]: [newValue, previousValue],
             }));
-
             return {
               ...prevData,
               [key]: newValue,
             };
           }
         } else if (dataFieldType === "alphanumeric") {
-          if (!/^[a-zA-Z0-9]+$/.test(newValue)) {
+          console.log("alphanumeric" + fieldLength);
+          if (
+            newValue.length > +fieldLength ||
+            !/^[a-zA-Z0-9\s]+$/.test(newValue)
+          ) {
             return {
               ...prevData,
               [key]: newValue ? previousValue : "",
-            };
-          } else if (newValue.length > +fieldLength) {
-            return {
-              ...prevData,
-              [key]: previousValue,
             };
           } else {
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
               [key]: [newValue, previousValue],
             }));
-
             return {
               ...prevData,
               [key]: newValue,
             };
           }
         }
+
         setModifiedKeys((prevKeys) => ({
           ...prevKeys,
           [key]: [newValue, previousValue],
@@ -575,7 +573,6 @@ const DataMatching = () => {
       }
     });
   };
-
   const imageFocusHandler = (headerName) => {
     const csvDataKeys = Object.keys(csvData[0]);
     let matchedValue = null;
@@ -714,10 +711,12 @@ const DataMatching = () => {
 
   const zoomInHandler = () => {
     setZoomLevel((prevZoomLevel) => Math.min(prevZoomLevel * 1.1, 3));
+    setSelectedCoordinates(true);
   };
 
   const zoomOutHandler = () => {
     setZoomLevel((prevZoomLevel) => Math.max(prevZoomLevel * 0.9, 0.5));
+    setSelectedCoordinates(true);
   };
 
   const onInialImageHandler = () => {

@@ -4,7 +4,7 @@ const AdminCompareTasks = ({ compareTask, onCompareTaskStartHandler }) => {
   return (
     <div>
       {compareTask?.map((taskData) => (
-        <div key={taskData.id} className="flex">
+        <div key={taskData.id} className="flex justify-center">
           <div className="whitespace-nowrap  w-[150px] py-2">
             <div className="text-md text-center ">{taskData.name}</div>
           </div>

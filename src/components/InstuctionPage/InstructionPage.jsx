@@ -6,7 +6,7 @@ const InstructionPage = ({ setInstuction, instruction, handleFinalSubmit }) => {
   return (
     <div>
       {instruction && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 mt-20">
           <div className="bg-white rounded-lg p-8 shadow-lg max-w-2xl mx-auto text-center border-2 border-green-500 relative">
             {/* Close Icon */}
             <button

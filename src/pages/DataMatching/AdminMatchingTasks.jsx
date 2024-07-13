@@ -12,7 +12,7 @@ const AdminMatchingTasks = ({
   return (
     <div>
       {matchingTask?.map((taskData) => (
-        <div key={taskData.id} className="flex ">
+        <div key={taskData.id} className="flex  justify-center">
           <div className="whitespace-nowrap w-[100px] py-2">
             <div className="text-center text-md ">{taskData.templateName}</div>
           </div>

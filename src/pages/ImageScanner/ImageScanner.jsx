@@ -546,8 +546,8 @@ const ImageScanner = () => {
   return (
     <div className="flex flex-col-reverse lg:flex-row justify-center items-center scannerbg bg-gradient-to-r from-blue-700 to-purple-800 border-1 pt-20 ">
       {/* LEFT SECTION  */}
-      <div className="flex w-[40%] lg:w-[25%] ">
-        <div className="flex flex-1  flex-col justify-between ">
+      <div className="flex w-[40%] lg:w-[25%]">
+        <div className="flex flex-1  flex-col justify-between">
           <TemplateData
             selectedCoordinates={selectedCoordinates}
             setRemoveModal={setRemoveModal}

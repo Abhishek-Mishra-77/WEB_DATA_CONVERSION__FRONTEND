@@ -9,6 +9,24 @@ const AssigningTask = ({
   onTaskAssignedHandler,
   totalData,
 }) => {
+  const handleCheckboxChange = (userId, userName) => {
+    const existingIndex = selectedUser.findIndex(
+      (data) => data.userId === userId
+    );
+
+    if (existingIndex !== -1) {
+      const filteredData = [...selectedUser];
+      filteredData.splice(existingIndex, 1);
+      setSelectedUser(filteredData);
+    } else {
+      setSelectedUser((prev) => [
+        ...prev,
+        { userId: userId, userName: userName },
+      ]);
+    }
+  };
+
+
   return (
     <>
       <div className="flex  space-y-4  flex-row items-center justify-between">
@@ -65,29 +83,37 @@ const AssigningTask = ({
                     <td className="whitespace-nowrap px-4 py-4 border-2">
                       <div className="flex items-center">
                         <div className=" w-full">
-                          <div className="overflow-y-auto h-[310px] ">
+                          <div className="overflow-y-auto h-[310px]">
                             {allUsers?.map((user, i) => {
                               if (user.role !== "Admin") {
                                 return (
-                                  <button
-                                    onClick={() =>
-                                      setSelectedUser({
-                                        ...selectedUser,
-                                        userId: user.id,
-                                        userName: user.userName,
-                                      })
-                                    }
-                                    className={`group flex items-center justify-between  mt-2 rounded-lg hover:bg-blue-200 hover:text-black w-full bg-blue-100 px-4 py-2 text-gray-700 
-                                       ${
-                                         selectedUser.userId === user.id
-                                           ? "bg-blue-500 text-white"
-                                           : "text-gray-500  hover:text-gray-700"
-                                       }`}
+                                  <div
+                                    key={user.id}
+                                    className="group flex items-center justify-between mt-2 rounded-lg hover:bg-blue-200 hover:text-black w-full bg-blue-100 px-4 py-2 text-gray-700"
                                   >
-                                    <span className="text-md font-medium w-full">
-                                      {user.userName}
-                                    </span>
-                                  </button>
+                                    <label
+                                      htmlFor={`userId-${user.id}`}
+                                      className="flex items-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        checked={selectedUser.some(
+                                          (data) => data.userId === user.id
+                                        )}
+                                        onChange={() =>
+                                          handleCheckboxChange(
+                                            user.id,
+                                            user.userName
+                                          )
+                                        }
+                                        id={`userId-${user.id}`}
+                                        className="form-checkbox h-4 w-4 text-blue-500"
+                                      />
+                                      <span className="ml-2 text-md font-medium">
+                                        {user.userName}
+                                      </span>
+                                    </label>
+                                  </div>
                                 );
                               } else {
                                 return null;

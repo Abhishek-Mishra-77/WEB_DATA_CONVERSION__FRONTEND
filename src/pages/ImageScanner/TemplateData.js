@@ -37,12 +37,9 @@ const TemplateData = ({
   };
 
   return (
-    <div className="px-4 py-6">
-      <div className="space-y-20">
-        <div
-          style={{ marginTop: "40px" }}
-          className="block w-full rounded-3xl bg-gray-100 px-6 py-2 text-sm font-medium  mb-5"
-        >
+    <div className="px-4 py-6 ">
+      <div className="">
+        <div className="block w-full rounded-3xl bg-gray-100 px-6 py-2 text-sm font-medium  mb-5">
           <div className="overflow-x-auto ">
             <div className="my-3 table-auto   border-collapse border border-gray-400 min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded-3xl">
               <div className="ltr:text-left rtl:text-right flex justify-around text-gray-600">

@@ -24,7 +24,7 @@ const UploadSection = ({
   return (
     <div className="pt-4 xl:pt-0">
       <div className="xl:flex justify-center items-center gap-5  mx-5 pt-20 ">
-        <div className="mx-auto max-w-xl mt-5  min-h-[300px] bg-white px-4 py-4  text-center shadow-lg rounded-3xl">
+        <div className="mx-auto max-w-xl mt-5  min-h-[300px] bg-white px-8 py-4  text-center shadow-lg rounded-3xl">
           <h1 className="mb-3 text-xl font-semibold text-center text-blue-500">
             Template Name
           </h1>
@@ -57,7 +57,7 @@ const UploadSection = ({
               className="input rounded-full ps-8 py-1 border-2 rounded-4 focus:outline-none focus:border-blue-500 placeholder-gray-400"
             />
           </div>
-          <div className="overflow-y-scroll h-[20vh]  bg-white">
+          <div className="overflow-y-scroll h-[20vh] px-2  bg-white">
             {filteredTemplates?.map((template) => (
               <>
                 <p
@@ -96,7 +96,7 @@ const UploadSection = ({
           </div>
           <div className="mt-4">
             <div className="flex items-center justify-center">
-              <div className="rounded-lg">
+              <div className="rounded-sm ">
                 {data &&
                   Array.from({ length: data.pageCount }).map((_, index) => (
                     <div key={index} className="flex gap-3">
@@ -112,7 +112,7 @@ const UploadSection = ({
                             ? "image name"
                             : `${index === 0 ? "first" : "second"} image name`
                         }
-                        className="input rounded-full px-3 mb-5 py-1  border-1 border-gray-200 rounded-3 border-transparent shadow shadow-blue-200 focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                        className="input rounded mb-5 py-1  border-1 text-center border-gray-200 rounded-3 border-transparent shadow shadow-blue-200 focus:outline-none focus:border-blue-500 placeholder-gray-400"
                       />
                     </div>
                   ))}

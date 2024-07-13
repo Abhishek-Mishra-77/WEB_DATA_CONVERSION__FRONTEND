@@ -38,6 +38,7 @@ const FormDataSection = ({
                         {key?.toUpperCase()}
                       </span>
                     </label>
+
                     <input
                       type="text"
                       className={`mt-1 border-none p-2 focus:border-transparent text-center rounded-lg focus:outline-none focus:ring-0 sm:text-sm w-48
