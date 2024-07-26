@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { REACT_APP_IP } from "../../services/common";
 
 const ImageSection = ({
   imageContainerRef,
@@ -9,6 +10,7 @@ const ImageSection = ({
   selectedCoordintes,
   templateHeaders,
 }) => {
+
   return (
     <div
       ref={imageContainerRef}
@@ -22,8 +24,10 @@ const ImageSection = ({
         scrollbarWidth: "thin",
       }}
     >
+
       <img
-        src={`data:image/jpeg;base64,${imageUrls[currentImageIndex]?.base64Image}`}
+        // src={`data:image/jpeg;base64,${imageUrls[currentImageIndex]?.base64Image}`}
+        src={`http://${REACT_APP_IP}:4000/images/${imageUrls[currentImageIndex]}`}
         alt="Selected"
         ref={imageRef}
         style={{

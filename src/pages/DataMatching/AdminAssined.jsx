@@ -202,6 +202,7 @@ const AdminAssined = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            token: token
           },
         }
       );

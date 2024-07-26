@@ -287,7 +287,7 @@ const CsvUploader = () => {
       <div>
         <ModalWithLoadingBar
           isOpen={loading}
-          onClose={() => {}}
+          onClose={() => { }}
           progress={progress}
           message="Uploading csv and image zip the files..."
         />

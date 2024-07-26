@@ -417,7 +417,7 @@ const ImageScanner = () => {
           token: token,
         },
       });
-      toast.success("Template created successfully!");
+      toast.success("Template created & updated successfully!");
       dataCtx.modifyTemplateData(null);
       localStorage.removeItem("images");
       setTemplatePermissions((prevState) => ({

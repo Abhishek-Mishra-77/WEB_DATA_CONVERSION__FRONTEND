@@ -139,6 +139,7 @@ const CreateUser = () => {
           createTemplate: false,
         },
       });
+      setConfirmPassword("")
       toast.success("User Created successfully", {
         position: "bottom-left",
         autoClose: 1000,
@@ -163,7 +164,7 @@ const CreateUser = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-fit pb-12 ">
+    <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-fit pb-32">
       <div className="max-w-2xl mx-auto shadow-lg rounded-3xl py-4 px-16 bg-gray-50 mt-40 pb-12">
         <div className="mb-5">
           <h2 className="text-center text-3xl font-bold leading-tight text-gray my-4 ">

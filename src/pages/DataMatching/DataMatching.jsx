@@ -36,6 +36,7 @@ const DataMatching = () => {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [currentIndex, setCurrentIndex] = useState(1);
   const [compareTask, setCompareTask] = useState([]);
+  const [initialValues, setInitialValues] = useState({});
   const [csvData, setCsvData] = useState([]);
   const [confirmationModal, setConfirmationModal] = useState();
   const [userRole, setUserRole] = useState();
@@ -136,8 +137,19 @@ const DataMatching = () => {
 
       if (dataFieldType === "number") {
         const [min, max] = fieldRange.split("--").map(Number);
+        const blankDefination = templateHeaders?.blankDefination === "space" ? " " : templateHeaders?.blankDefination
+        if (keyValue.includes(templateHeaders?.patternDefinition)) {
+          toast.warning(`The value for ${csvHeaderKey} include the pattern definition ${"    " + templateHeaders?.patternDefinition}.`);
+          return;
+        }
+
+        if (keyValue.includes(blankDefination)) {
+          toast.warning(`The value for ${csvHeaderKey} should not include the specified blank definition.`);
+          return;
+        }
+
+
         const keyValueNumber = Number(keyValue);
-        console.log(keyValue, +fieldLength + " -- > ");
         if (keyValue.length !== +fieldLength) {
           toast.warning(
             `The length of the ${csvHeaderKey} should be ` + fieldLength
@@ -153,7 +165,6 @@ const DataMatching = () => {
           return;
         }
       } else if (dataFieldType === "text") {
-        console.log("TEXT");
         const isValidText = /^[A-Za-z\s]+$/.test(keyValue);
         // if (keyValue.length !== +fieldLength) {
         //   toast.warning(
@@ -168,8 +179,6 @@ const DataMatching = () => {
         }
       } else if (dataFieldType === "alphanumeric") {
         const isValidAlphanumeric = /^[a-zA-Z0-9\s]+$/.test(keyValue);
-        console.log(`Alphanumeric value ${keyValue} is valid.`);
-
         // if (keyValue.length !== +fieldLength) {
         //   toast.warning(
         //     `The length of the ${csvHeaderKey} should be ` + fieldLength
@@ -219,6 +228,7 @@ const DataMatching = () => {
       toast.error(error.message);
     }
   };
+
 
   // Sortcuts buttons
   useEffect(() => {
@@ -355,10 +365,8 @@ const DataMatching = () => {
     }
 
     setImageColNames(imageNames);
-
     try {
       let newIndex = currMatchingIndex;
-
       let allImagePaths;
       if (direction === "initial") {
         const objects = csvData[newIndex];
@@ -380,7 +388,7 @@ const DataMatching = () => {
           return;
         }
       }
-
+      setImageUrls(allImagePaths)
       const response = await axios.post(
         `http://${REACT_APP_IP}:4000/get/image`,
         {
@@ -420,7 +428,7 @@ const DataMatching = () => {
       }
       setModifiedKeys(null);
       setZoomLevel(1);
-      setImageUrls(response.data.arrayOfImages);
+      // setImageUrls(response.data.arrayOfImages);
       setImageNotFound(true);
       setPopUp(false);
     } catch (error) {
@@ -451,16 +459,25 @@ const DataMatching = () => {
 
     setCsvCurrentData((prevData) => {
       const previousValue = prevData[key];
+      const initialValue = initialValues[key] || previousValue;
+
+      // Capture the initial value if it's not already captured
+      if (!initialValues[key]) {
+        setInitialValues((prevInitialValues) => ({
+          ...prevInitialValues,
+          [key]: previousValue,
+        }));
+      }
+
       if (matchedCoordinate?.fieldType === "questionsField") {
         if (templateHeaders.isPermittedToEdit) {
           const validCharacters = templateHeaders?.typeOption?.split("-");
           newValue = newValue.trim();
 
           if (validCharacters.includes(newValue) || newValue === "") {
-            console.log("newValue1");
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
-              [key]: [newValue, previousValue],
+              [key]: [newValue, initialValue],
             }));
 
             return {
@@ -494,12 +511,16 @@ const DataMatching = () => {
 
         const { dataFieldType, fieldLength } = currentFormData;
         if (dataFieldType === "number") {
-          if (!/^[0-9]*$/.test(newValue)) {
+          console.log("testing" + newValue, previousValue, dataFieldType);
+
+          const trimmedValue = newValue.replace(/\s+/g, "");
+
+          if (!/^[0-9]*$/.test(trimmedValue)) {
             return {
               ...prevData,
               [key]: previousValue || "",
             };
-          } else if (newValue.length > +fieldLength) {
+          } else if (trimmedValue.length > +fieldLength) {
             return {
               ...prevData,
               [key]: previousValue,
@@ -507,32 +528,43 @@ const DataMatching = () => {
           } else {
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
-              [key]: [newValue, previousValue],
+              [key]: [trimmedValue, initialValue],
             }));
 
             return {
               ...prevData,
-              [key]: newValue,
+              [key]: trimmedValue,
             };
           }
         } else if (dataFieldType === "text") {
           const filteredValue = newValue.replace(/[^A-Za-z\s]/g, "");
-          console.log("Text" + fieldLength);
-
-          if (filteredValue.length > +fieldLength) {
+          console.log("testing" + newValue, previousValue, dataFieldType);
+          if (newValue.length < previousValue.length) {
+            // Allow backspacing and deletion
+            setModifiedKeys((prevKeys) => ({
+              ...prevKeys,
+              [key]: [newValue, initialValue],
+            }));
             return {
               ...prevData,
-              [key]: previousValue,
+              [key]: newValue,
             };
           } else if (newValue !== filteredValue) {
+            console.log("Invalid characters removed: " + newValue + " -> " + filteredValue);
             return {
               ...prevData,
               [key]: previousValue || "",
             };
+          } else if (filteredValue.length > +fieldLength) {
+            console.log("Text exceeds maximum length");
+            return {
+              ...prevData,
+              [key]: previousValue,
+            };
           } else {
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
-              [key]: [newValue, previousValue],
+              [key]: [newValue, initialValue],
             }));
             return {
               ...prevData,
@@ -540,7 +572,7 @@ const DataMatching = () => {
             };
           }
         } else if (dataFieldType === "alphanumeric") {
-          console.log("alphanumeric" + fieldLength);
+          console.log("testing" + newValue, previousValue, dataFieldType);
           if (
             newValue.length > +fieldLength ||
             !/^[a-zA-Z0-9\s]+$/.test(newValue)
@@ -552,7 +584,7 @@ const DataMatching = () => {
           } else {
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
-              [key]: [newValue, previousValue],
+              [key]: [newValue, initialValue],
             }));
             return {
               ...prevData,
@@ -561,9 +593,11 @@ const DataMatching = () => {
           }
         }
 
+        console.log(newValue + "New  - Prev" + previousValue)
+
         setModifiedKeys((prevKeys) => ({
           ...prevKeys,
-          [key]: [newValue, previousValue],
+          [key]: [newValue, initialValue],
         }));
 
         return {
@@ -572,7 +606,10 @@ const DataMatching = () => {
         };
       }
     });
+
   };
+
+
   const imageFocusHandler = (headerName) => {
     const csvDataKeys = Object.keys(csvData[0]);
     let matchedValue = null;
@@ -727,6 +764,7 @@ const DataMatching = () => {
       imageRef.current.style.transformOrigin = "initial";
     }
   };
+
 
   return (
     <>

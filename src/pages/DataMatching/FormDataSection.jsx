@@ -11,9 +11,10 @@ const FormDataSection = ({
   changeCurrentCsvDataHandler,
   imageFocusHandler,
 }) => {
-  const blankDefination = templateHeaders?.blankDefination
-    ? templateHeaders?.blankDefination
-    : " ";
+  const blankDefination = templateHeaders?.blankDefination === "space" ? " " : templateHeaders?.blankDefination;
+
+
+
   return (
     <div className=" border-e lg:w-3/12 xl:w-[20%] order-lg-1 ">
       <div className="overflow-hidden w-[100%] ">
@@ -42,27 +43,25 @@ const FormDataSection = ({
                     <input
                       type="text"
                       className={`mt-1 border-none p-2 focus:border-transparent text-center rounded-lg focus:outline-none focus:ring-0 sm:text-sm w-48
-                                      ${
-                                        csvCurrentData[key] ===
-                                          blankDefination ||
-                                        (csvCurrentData[key] &&
-                                          typeof csvCurrentData[key] ===
-                                            "string" &&
-                                          (csvCurrentData[key].includes(
-                                            templateHeaders?.patternDefinition
-                                          ) ||
-                                            csvCurrentData[key].includes(
-                                              blankDefination
-                                            )))
-                                          ? "bg-red-500 text-white"
-                                          : "bg-white"
-                                      }
+                                      ${csvCurrentData[key] ===
+                          blankDefination ||
+                          (csvCurrentData[key] &&
+                            typeof csvCurrentData[key] ===
+                            "string" &&
+                            (csvCurrentData[key].includes(
+                              templateHeaders?.patternDefinition
+                            ) ||
+                              csvCurrentData[key].includes(
+                                blankDefination
+                              )))
+                          ? "bg-red-500 text-black"
+                          : "bg-white"
+                        }
 
-                                      ${
-                                        i === currentFocusIndex
-                                          ? "bg-yellow-300"
-                                          : ""
-                                      }
+                                      ${i === currentFocusIndex
+                          ? "bg-yellow-300 text-black"
+                          : ""
+                        }
                                       `}
                       ref={(el) => (inputRefs.current[i] = el)}
                       value={csvCurrentData[key] || ""}

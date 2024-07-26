@@ -2,6 +2,8 @@ import React from "react";
 import { REACT_APP_IP } from "../../services/common";
 
 const DuplicateImage = ({ currentImageIndex, currentRowData, imageUrl }) => {
+  
+  console.log(imageUrl)
   return (
     <div className="mx-auto max-w-screen-xl px-2 lg:py-1 sm:px-6 lg:px-8">
       <h2 className="text-center text-lg my-3 font-bold text-white w-full ">

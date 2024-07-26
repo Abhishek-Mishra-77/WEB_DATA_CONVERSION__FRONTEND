@@ -11,9 +11,7 @@ const QuestionsDataSection = ({
   changeCurrentCsvDataHandler,
   imageFocusHandler,
 }) => {
-  const blankDefination = templateHeaders?.blankDefination
-    ? templateHeaders?.blankDefination
-    : " ";
+  const blankDefination = templateHeaders?.blankDefination === "space" ? " " : templateHeaders?.blankDefination;
 
   return (
     <div className="w-full xl:w-2/3 xl:px-6 mx-auto text-white">
@@ -52,22 +50,20 @@ const QuestionsDataSection = ({
                         <input
                           type="text"
                           id={`Quantity${i}`}
-                          className={`h-7 w-7 text-center text-black rounded text-sm ${
-                            csvCurrentData[key] === blankDefination ||
-                            (csvCurrentData[key] &&
-                              typeof csvCurrentData[key] === "string" &&
-                              (csvCurrentData[key].includes(
-                                templateHeaders?.patternDefinition
-                              ) ||
-                                csvCurrentData[key].includes(blankDefination)))
+                          className={`h-7 w-7 text-center text-black rounded text-sm ${csvCurrentData[key] === blankDefination ||
+                              (csvCurrentData[key] &&
+                                typeof csvCurrentData[key] === "string" &&
+                                (csvCurrentData[key].includes(
+                                  templateHeaders?.patternDefinition
+                                ) ||
+                                  csvCurrentData[key].includes(blankDefination)))
                               ? "bg-red-500 text-white"
                               : "bg-white"
-                          }
-                              ${
-                                i === currentFocusIndex
-                                  ? "bg-yellow-300 text-black"
-                                  : ""
-                              }
+                            }
+                              ${i === currentFocusIndex
+                              ? "bg-yellow-300 text-black"
+                              : ""
+                            }
                           `}
                           ref={(el) => (inputRefs.current[i] = el)}
                           value={csvCurrentData[key] || ""}
