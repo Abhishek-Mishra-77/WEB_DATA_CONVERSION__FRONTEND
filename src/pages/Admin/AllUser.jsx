@@ -33,7 +33,7 @@ export function AllUser() {
       try {
         const response = await onGetVerifiedUserHandler();
         setCurrentUser(response.user);
-      } catch (error) {}
+      } catch (error) { }
     };
     fetchUser();
   }, []);
