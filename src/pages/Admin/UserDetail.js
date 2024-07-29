@@ -8,12 +8,20 @@ function UserDetail() {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 8;
+  const token = JSON.parse(localStorage.getItem("userData"));
+  console.log(token)
+
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
         const response = await axios.get(
-          `http://${REACT_APP_IP}:4000/user/details/${id}`
+          `http://${REACT_APP_IP}:4000/user/details/${id}`,
+          {
+            headers: {
+              token: token,
+            },
+          }
         );
         setUserDetails(response.data?.userActivitydetails || []);
       } catch (error) {
@@ -21,7 +29,7 @@ function UserDetail() {
       }
     };
     fetchUserDetails();
-  }, [id]);
+  }, [id, token]);
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -40,11 +48,10 @@ function UserDetail() {
         key={i}
         id={i}
         onClick={handleClick}
-        className={`px-3 py-1 mx-1 ${
-          currentPage === i
-            ? "bg-blue-500 text-white rounded-md"
-            : "bg-gray-200 text-gray-700 rounded-md"
-        }`}
+        className={`px-3 py-1 mx-1 ${currentPage === i
+          ? "bg-blue-500 text-white rounded-md"
+          : "bg-gray-200 text-gray-700 rounded-md"
+          }`}
       >
         {i}
       </button>
