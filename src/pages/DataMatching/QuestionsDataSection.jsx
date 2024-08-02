@@ -38,6 +38,13 @@ const QuestionsDataSection = ({
                   templateData.fieldType === "questionsField" &&
                   key !== imageColName
                 ) {
+                  // Determine if the input should be red
+                  const inputValue = csvCurrentData[key] || "";
+                  const isRed = !inputValue?.trim() ||
+                    inputValue.includes(blankDefination) ||
+                    (templateHeaders?.patternDefinition &&
+                      inputValue.includes(templateHeaders?.patternDefinition));
+
                   return (
                     <div key={i} className=" me-3 my-1 flex">
                       <label
@@ -50,23 +57,11 @@ const QuestionsDataSection = ({
                         <input
                           type="text"
                           id={`Quantity${i}`}
-                          className={`h-7 w-7 text-center text-black rounded text-sm ${csvCurrentData[key] === blankDefination ||
-                              (csvCurrentData[key] &&
-                                typeof csvCurrentData[key] === "string" &&
-                                (csvCurrentData[key].includes(
-                                  templateHeaders?.patternDefinition
-                                ) ||
-                                  csvCurrentData[key].includes(blankDefination)))
-                              ? "bg-red-500 text-white"
-                              : "bg-white"
-                            }
-                              ${i === currentFocusIndex
-                              ? "bg-yellow-300 text-black"
-                              : ""
-                            }
-                          `}
+                          className={`h-7 w-7 text-center text-black rounded text-sm ${isRed ? "bg-red-500 text-white" : "bg-white"
+                            } ${i === currentFocusIndex ? "bg-yellow-300 text-black" : ""
+                            }`}
                           ref={(el) => (inputRefs.current[i] = el)}
-                          value={csvCurrentData[key] || ""}
+                          value={inputValue}
                           onKeyDown={(e) => handleKeyDownJump(e, i)}
                           placeholder={value}
                           onChange={(e) =>
@@ -78,6 +73,7 @@ const QuestionsDataSection = ({
                     </div>
                   );
                 }
+                return null; // Ensure that undefined values do not break the component
               })}
           </div>
         </div>

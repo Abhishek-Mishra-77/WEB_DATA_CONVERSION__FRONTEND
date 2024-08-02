@@ -50,11 +50,9 @@ const DataMatching = () => {
     const fetchCurrentUser = async () => {
       try {
         const verifiedUser = await onGetVerifiedUserHandler();
-
         setUserRole(verifiedUser.user.role);
         const tasks = await onGetTaskHandler(verifiedUser.user.id);
         const templateData = await onGetTemplateHandler();
-
         const uploadTask = tasks.filter((task) => {
           return task.moduleType === "Data Entry";
         });
@@ -491,7 +489,7 @@ const DataMatching = () => {
         const maxLength = parseInt(fieldLength, 10);
 
         if (dataFieldType === "number") {
-          const trimmedValue = newValue.trim();
+          const trimmedValue = newValue?.trim();
 
           if (!/^\d*$/.test(trimmedValue)) {
             toast.error("Invalid number format.");
@@ -510,6 +508,7 @@ const DataMatching = () => {
             };
           }
         } else if (dataFieldType === "text") {
+          newValue = newValue?.trim();
           const filteredValue = newValue.replace(/[^A-Za-z\s]/g, "");
           if (newValue.length < previousValue.length) {
             setModifiedKeys((prevKeys) => ({
@@ -537,6 +536,7 @@ const DataMatching = () => {
             };
           }
         } else if (dataFieldType === "alphanumeric") {
+          newValue = newValue?.trim();
           if (
             newValue.length > maxLength ||
             !/^[a-zA-Z0-9\s]+$/.test(newValue)
@@ -559,9 +559,6 @@ const DataMatching = () => {
       }
     });
   };
-
-
-
 
   const imageFocusHandler = (headerName) => {
     const csvDataKeys = Object.keys(csvData[0]);
