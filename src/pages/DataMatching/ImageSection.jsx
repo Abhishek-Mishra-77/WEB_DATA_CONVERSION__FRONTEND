@@ -11,6 +11,7 @@ const ImageSection = ({
   templateHeaders,
 }) => {
 
+
   return (
     <div
       ref={imageContainerRef}

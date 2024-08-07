@@ -158,6 +158,7 @@ const CsvUploader = () => {
               "Content-Type": "multipart/form-data",
               token: token,
             },
+            timeout: 60 * 60 * 1000,
             onUploadProgress: (progressEvent) => {
               // Calculate percentage completed
               const percentage = Math.round(

@@ -714,6 +714,9 @@ const DataMatching = () => {
       imageRef.current.style.transformOrigin = "initial";
     }
   };
+console.log(csvData)
+  console.log(imageUrls + "mnljdksan" + currentImageIndex)
+
 
 
   return (
