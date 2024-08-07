@@ -36,7 +36,6 @@ const DataMatching = () => {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [currentIndex, setCurrentIndex] = useState(1);
   const [compareTask, setCompareTask] = useState([]);
-  const [initialValues, setInitialValues] = useState({});
   const [csvData, setCsvData] = useState([]);
   const [confirmationModal, setConfirmationModal] = useState();
   const [userRole, setUserRole] = useState();
@@ -190,6 +189,7 @@ const DataMatching = () => {
           updatedData: csvCurrentData,
           index: csvCurrentData.rowIndex + 1,
           updatedColumn: modifiedKeys,
+          imageNameArray: imageUrls
         },
         {
           headers: {
@@ -345,7 +345,6 @@ const DataMatching = () => {
       imageNames.push(...keys);
       i++;
     }
-
     setImageColNames(imageNames);
     try {
       let newIndex = currMatchingIndex;
@@ -446,27 +445,24 @@ const DataMatching = () => {
       (data) => data.attribute === matchedValue
     );
 
-
-
     setCsvCurrentData((prevData) => {
       const previousValue = prevData[key];
+      const trimmedValue = newValue.trim(); // Trim leading/trailing spaces
 
       if (matchedCoordinate?.fieldType === "questionsField") {
-        if (templateHeaders.isPermittedToEdit) {
+        if (templateHeaders?.isPermittedToEdit) {
           const validCharacters = templateHeaders?.typeOption?.split("-");
-          newValue = newValue.trim();
-
-          if (validCharacters.includes(newValue) || newValue === "") {
+          if (validCharacters.includes(trimmedValue) || trimmedValue === "") {
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
-              [key]: [newValue, csvData[currentIndex][key]],
+              [key]: [trimmedValue, csvData[currentIndex][key]],
             }));
             return {
               ...prevData,
-              [key]: newValue,
+              [key]: trimmedValue,
             };
           } else {
-            return prevData; // Invalid value
+            return prevData;
           }
         } else {
           toast.warning("You do not have permission to edit this field.");
@@ -489,8 +485,6 @@ const DataMatching = () => {
         const maxLength = parseInt(fieldLength, 10);
 
         if (dataFieldType === "number") {
-          const trimmedValue = newValue?.trim();
-
           if (!/^\d*$/.test(trimmedValue)) {
             toast.error("Invalid number format.");
             return prevData;
@@ -500,7 +494,7 @@ const DataMatching = () => {
           } else {
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
-              [key]: [newValue, csvData[currentIndex][key]],
+              [key]: [trimmedValue, csvData[currentIndex][key]],
             }));
             return {
               ...prevData,
@@ -508,8 +502,8 @@ const DataMatching = () => {
             };
           }
         } else if (dataFieldType === "text") {
-          newValue = newValue?.trim();
           const filteredValue = newValue.replace(/[^A-Za-z\s]/g, "");
+
           if (newValue.length < previousValue.length) {
             setModifiedKeys((prevKeys) => ({
               ...prevKeys,
@@ -536,7 +530,6 @@ const DataMatching = () => {
             };
           }
         } else if (dataFieldType === "alphanumeric") {
-          newValue = newValue?.trim();
           if (
             newValue.length > maxLength ||
             !/^[a-zA-Z0-9\s]+$/.test(newValue)
@@ -714,9 +707,6 @@ const DataMatching = () => {
       imageRef.current.style.transformOrigin = "initial";
     }
   };
-console.log(csvData)
-  console.log(imageUrls + "mnljdksan" + currentImageIndex)
-
 
 
   return (
@@ -736,7 +726,7 @@ console.log(csvData)
               </>
             )}
             {!popUp && (
-              <div className=" flex flex-col lg:flex-row  bg-gradient-to-r from-blue-600 to-purple-700 dataEntry pt-20">
+              <div className=" flex flex-col lg:flex-row  bg-gradient-to-r from-blue-400 to-blue-600 dataEntry pt-20">
                 {/* LEFT SECTION */}
                 <FormDataSection
                   csvCurrentData={csvCurrentData}

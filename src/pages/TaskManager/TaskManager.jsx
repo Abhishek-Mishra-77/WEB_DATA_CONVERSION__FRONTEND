@@ -129,7 +129,7 @@ const TemplateMapping = () => {
   };
 
   return (
-    <div className=" min-h-[100vh] flex justify-center items-center pt-20 templatemapping bg-gradient-to-r from-blue-700 to-purple-800">
+    <div className=" min-h-[100vh] flex justify-center items-center pt-20 templatemapping bg-gradient-to-r from-blue-400 to-blue-600">
       <div className=" w-full">
         {/* MAIN SECTION  */}
         <section className="mx-auto max-w-[90%] xl:max-w-6xl  px-12 py-4 bg-white rounded-xl">

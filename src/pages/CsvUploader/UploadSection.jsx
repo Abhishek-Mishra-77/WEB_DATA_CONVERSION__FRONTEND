@@ -22,10 +22,10 @@ const UploadSection = ({
   onSaveFilesHandler,
 }) => {
   return (
-    <div className="pt-4 xl:pt-0">
-      <div className="xl:flex justify-center items-center gap-5  mx-5 pt-20 ">
-        <div className="mx-auto max-w-xl mt-5  min-h-[300px] bg-white px-8 py-4  text-center shadow-lg rounded-3xl">
-          <h1 className="mb-3 text-xl font-semibold text-center text-blue-500">
+    <div className="pt-4 xl:pt-0 bg-gradient-to-r from-blue-400 to-blue-600">
+      <div className="xl:flex justify-center items-center gap-5 mx-5 pt-20">
+        <div className="mx-auto max-w-xl mt-5 min-h-[300px] bg-white px-8 py-4 text-center shadow-lg rounded-3xl">
+          <h1 className="mb-3 text-xl font-semibold text-center text-blue-600">
             Template Name
           </h1>
           <div className="form relative pb-3">
@@ -54,49 +54,45 @@ const UploadSection = ({
               onChange={(e) => setTemplateName(e.target.value)}
               required
               placeholder="Search..."
-              className="input rounded-full ps-8 py-1 border-2 rounded-4 focus:outline-none focus:border-blue-500 placeholder-gray-400"
+              className="input rounded-full ps-8 py-1 border-2 border-blue-500 focus:outline-none focus:border-blue-700 placeholder-gray-400"
             />
           </div>
-          <div className="overflow-y-scroll h-[20vh] px-2  bg-white">
+          <div className="overflow-y-scroll h-[20vh] px-2 bg-white">
             {filteredTemplates?.map((template) => (
-              <>
-                <p
-                  key={template.id}
-                  onClick={() => setSelectedId(template.id)}
-                  className={`group flex items-center justify-between w-ful cursor-pointer mt-2 rounded-lg px-4 py-2  text-black ${
-                    selectedId === template.id ? "bg-blue-100" : ""
+              <p
+                key={template.id}
+                onClick={() => setSelectedId(template.id)}
+                className={`group flex items-center justify-between w-full cursor-pointer mt-2 rounded-lg px-4 py-2 text-black ${selectedId === template.id ? "bg-blue-100" : ""
                   }`}
-                >
-                  <span
-                    className={`{ ${
-                      selectedId === template.id
-                        ? "text-blue-700  font-semibold text-lg hover:text-xl  rounded-lg w-2/4 text-ellipsis overflow-x-hidden"
-                        : "text-black hover:text-teal-700 hover:text-xl text-md font-medium w-2/4 text-ellipsis overflow-x-hidden"
+              >
+                <span
+                  className={`${selectedId === template.id
+                    ? "text-blue-700 font-semibold text-lg hover:text-xl"
+                    : "text-black hover:text-teal-700 text-md font-medium"
                     }`}
-                  >
-                    {template.name}
-                  </span>
-                  <CiEdit
-                    onClick={() => {
-                      setEditModal(true);
-                      setEditId(template.id);
-                    }}
-                    className="mx-auto text-blue-600 hover:text-2xl text-xl cursor-pointer w-1/4 hover:text-blue-700"
-                  />
-                  <MdDelete
-                    onClick={() => {
-                      setRemoveModal(true);
-                      setRemoveId(template.id);
-                    }}
-                    className="mx-auto text-red-500 hover:text-2xl text-xl cursor-pointer w-1/4"
-                  />
-                </p>
-              </>
+                >
+                  {template.name}
+                </span>
+                <CiEdit
+                  onClick={() => {
+                    setEditModal(true);
+                    setEditId(template.id);
+                  }}
+                  className="mx-auto text-blue-600 hover:text-blue-700 text-xl cursor-pointer"
+                />
+                <MdDelete
+                  onClick={() => {
+                    setRemoveModal(true);
+                    setRemoveId(template.id);
+                  }}
+                  className="mx-auto text-red-500 hover:text-red-600 text-xl cursor-pointer"
+                />
+              </p>
             ))}
           </div>
           <div className="mt-4">
             <div className="flex items-center justify-center">
-              <div className="rounded-sm ">
+              <div className="rounded-sm">
                 {data &&
                   Array.from({ length: data.pageCount }).map((_, index) => (
                     <div key={index} className="flex gap-3">
@@ -112,7 +108,7 @@ const UploadSection = ({
                             ? "image name"
                             : `${index === 0 ? "first" : "second"} image name`
                         }
-                        className="input rounded mb-5 py-1  border-1 text-center border-gray-200 rounded-3 border-transparent shadow shadow-blue-200 focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                        className="input rounded text-center mb-5 py-1 border-2 border-blue-500 shadow shadow-blue-200 focus:outline-none focus:border-blue-700 placeholder-gray-400"
                       />
                     </div>
                   ))}
@@ -121,16 +117,16 @@ const UploadSection = ({
           </div>
         </div>
         <div
-          className="mx-auto max-w-xl border-2  px-28 mt-5 text-center  shadow-teal-400 pb-5"
+          className="mx-auto max-w-xl border-2 px-28 mt-5 text-center shadow-md pb-5"
           style={{ borderColor: "skyblue", borderRadius: "60px" }}
         >
           <img
             src={UploadFile}
             alt="uploadIcon"
             width={"25%"}
-            className=" mx-auto mt-5 pt-3 mb-4"
+            className="mx-auto mt-5 pt-3 mb-4"
           />
-          <h2 className=" text-xl font-semibold text-white mb-4 mt-5">
+          <h2 className="text-xl font-semibold text-white mb-4 mt-5">
             Drag and Drop file to upload <br /> or{" "}
           </h2>
           <div className="relative flex justify-center">
@@ -138,7 +134,7 @@ const UploadSection = ({
               className="flex items-center font-medium text-white bg-blue-500 rounded-3xl shadow-md cursor-pointer select-none text-lg px-6 py-2 hover:shadow-xl active:shadow-md"
               htmlFor="file-upload"
             >
-              <span>Upload CSV File : {csvFile?.name}</span>
+              <span>Upload CSV File: {csvFile?.name}</span>
             </label>
             <input
               id="file-upload"
@@ -163,7 +159,7 @@ const UploadSection = ({
             className="mx-auto mt-5 pt-3 mb-4"
           />
 
-          <h2 className=" text-xl font-semibold text-white mb-4 mt-5">
+          <h2 className="text-xl font-semibold text-white mb-4 mt-5">
             Drag and Drop file to upload <br /> or{" "}
           </h2>
           <div className="relative flex justify-center">
@@ -171,7 +167,7 @@ const UploadSection = ({
               className="flex items-center font-medium text-white bg-blue-500 rounded-3xl shadow-md cursor-pointer select-none text-lg px-6 py-2 hover:shadow-xl active:shadow-md"
               htmlFor="image-folder-upload"
             >
-              <span>Upload Zip file : {imageFolder?.name}</span>
+              <span>Upload Zip file: {imageFolder?.name}</span>
 
               <input
                 id="image-folder-upload"
@@ -197,6 +193,7 @@ const UploadSection = ({
         </button>
       </div>
     </div>
+
   );
 };
 

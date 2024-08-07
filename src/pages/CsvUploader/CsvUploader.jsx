@@ -246,7 +246,7 @@ const CsvUploader = () => {
   return (
     <div className="flex justify-center items-center h-auto w-full ">
       <div className="w-full">
-        <div className="csvuploader bg-gradient-to-r from-blue-700 to-purple-700 xl:h-[100vh] w-full flex flex-col justify-center items-center">
+        <div className="csvuploader bg-gradient-to-r from-blue-400 to-blue-600 xl:h-[100vh] w-full flex flex-col justify-center items-center">
           <UploadSection
             onImageFolderHandler={onImageFolderHandler}
             setEditId={setEditId}

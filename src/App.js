@@ -22,7 +22,7 @@ import Profile from "./pages/Auth/Profile";
 import Assignee from "./pages/CSV Comparer/Assignee";
 import DuplicityDetect from "./pages/DuplicityDetect/DuplicityDetect";
 import UserDetail from "./pages/Admin/UserDetail";
-import UpdatedDetails from "./pages/Admin/UpdatedDetails";
+import UpdatedDetails from "./pages/Admin/UpdatedDetails/UpdatedDetails";
 import FieldDecision from "./pages/FieldDecision/FieldDecision";
 
 function App() {

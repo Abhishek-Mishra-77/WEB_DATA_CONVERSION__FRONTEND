@@ -147,9 +147,9 @@ const TemplateMapping = () => {
   };
 
   return (
-    <div className=" min-h-[100vh] overflow-y overflow-x-auto flex justify-center bg-gradient-to-r from-blue-700 to-purple-800 items-center templatemapping pt-20 pb-12">
-      <div className="w-[700px]">
-        <h1 className="text-white text-4xl text-center mb-10">Mapping</h1>
+    <div className="min-h-[100vh] overflow-y overflow-x-auto flex justify-center bg-gradient-to-r from-blue-400 to-blue-600 items-center templatemapping pt-20 pb-12">
+      <div className="w-[900px] bg-white p-6 rounded-lg shadow-md">
+        <h1 className="text-blue-800 text-4xl text-center mb-10">Mapping</h1>
         <HeaderData
           csvHeaders={csvHeaders}
           handleTemplateHeaderChange={handleTemplateHeaderChange}
@@ -166,6 +166,8 @@ const TemplateMapping = () => {
         />
       </div>
     </div>
+
+
   );
 };
 export default TemplateMapping;

@@ -121,7 +121,7 @@ const ImageUploader = () => {
 
   return (
     <div>
-      <section className="bgImage flex justify-center items-center w-full  bg-gradient-to-r from-blue-700 to-purple-800">
+      <section className="bgImage flex justify-center items-center w-full  bg-gradient-to-r from-blue-400 to-blue-600">
         <div className="mx-auto max-w-screen-sm lg:flex lg:h-screen lg:items-center">
           <div className=" border-2 border-white backdrop-blur  rounded-3xl px-16 py-10 shadow-white shadow-sm">
             <div className="text-white z-10">

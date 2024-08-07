@@ -23,7 +23,7 @@ const UserTaskAssined = ({
   };
 
   return (
-    <div className="h-[100vh] flex justify-center bg-gradient-to-r from-blue-700 to-purple-700  items-center templatemapping pt-20">
+    <div className="h-[100vh] flex justify-center bg-gradient-to-r from-blue-400 to-blue-600 items-center templatemapping pt-20">
       <div className="">
         {/* MAIN SECTION  */}
         <section className="mx-auto max-w-4xl  px-12 py-10 bg-white rounded-xl w-[100vw]">

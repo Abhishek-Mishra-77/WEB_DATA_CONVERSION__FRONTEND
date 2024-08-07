@@ -136,16 +136,16 @@ const FieldDecision = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div className="min-h-screen bg-gradient-to-r from-blue-400 to-blue-600 py-6 flex flex-col justify-center sm:py-12">
       <div className="container mx-auto px-4 sm:px-8">
         {/* Header Section with Submit Button */}
         <div className="flex justify-between items-center mt-12">
-          <h1 className="text-2xl font-semibold text-gray-700">
+          <h1 className="text-2xl font-semibold text-white">
             Field Decision
           </h1>
           <button
             onClick={() => setConfirmModal(true)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-8 rounded"
           >
             Save
           </button>

@@ -286,7 +286,7 @@ const ImageScanner = () => {
   };
 
   return (
-    <div className="flex duplicateImg  bg-gradient-to-r from-blue-700 to-purple-700 border-1 justify-center items-center   ">
+    <div className="flex duplicateImg  bg-gradient-to-r from-blue-400 to-blue-600 border-1 justify-center items-center   ">
       {showDuplicates ? (
         <FindDuplicate
           onDuplicateCheckedHandler={onDuplicateCheckedHandler}
@@ -339,7 +339,7 @@ const ImageScanner = () => {
               </div>
             </div>
           ) : (
-            <div className=" w-[75%]">
+            <div className="w-[75%]">
               <DuplicateImage
                 currentImageIndex={currentImageIndex}
                 currentRowData={currentRowData}

@@ -173,48 +173,22 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={`fixed w-full z-10 bg-white  backdrop-blur-sm `}>
-        <div
-          className={`mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8 ${
-            isMenuOpen ? "hidden " : ""
-          }`}
-        >
+      <div className={`fixed w-full z-10 bg-white backdrop-blur-sm`}>
+        <div className={`mx-auto flex max-w-7xl items-center justify-between px-4 py-1 sm:px-6 lg:px-8 ${isMenuOpen ? "hidden" : ""}`}>
           <div className="inline-flex items-center space-x-2">
-            <img className="h-14 w-auto" src={logo} alt="Your Company" />
+            <img className="h-10 w-auto" src={logo} alt="Your Company" /> {/* Reduced height */}
           </div>
           <div className="hidden lg:block">
             <ul className="flex justify-center items-center space-x-2">
-              {/* {userData?.role === "Admin"
-                ? menuItems?.map((item) => {
-                    const active =
-                      mainUrl[0] === item.href
-                        ? "bg-gray-200 duration-1000 transition-colors ease-in-out text-teal-500"
-                        : "";
-                    return (
-                      <li key={item.name}>
-                        <Link
-                          to={item.href}
-                          onClick={() => {
-                            setIsUserMenuOpen(false);
-                          }}
-                          className={`text-lg px-2 rounded-md py-1 font-semibold text-gray-700 no-underline hover:text-teal-500 ${active}`}
-                        >
-                          {item.name}
-                        </Link>
-                      </li>
-                    );
-                  })
-                : */}
               {filteredMenuItems?.map((item) => {
-                const active =
-                  mainUrl[0] === item.href
-                    ? "bg-blue-500 hover:bg-blue-500  text-white hover:text-white duration-1000 rounded-2xl transition-colors ease-in-out"
-                    : "font-semibold hover:text-blue-700 hover:bg-blue-100";
+                const active = mainUrl[0] === item.href
+                  ? "bg-blue-500 hover:bg-blue-500 text-white hover:text-white duration-1000 rounded-2xl transition-colors ease-in-out"
+                  : "font-semibold hover:text-blue-700 hover:bg-blue-100";
                 return (
                   <li key={item.name} className="">
                     <NavLink
                       to={item.href}
-                      className={`text-lg px-2 xl:px-4 rounded-3xl py-2  no-underline   ${active}`}
+                      className={`text-lg px-2 xl:px-4 rounded-3xl py-1 no-underline ${active}`}
                       onClick={() => {
                         setIsUserMenuOpen(false);
                       }}
@@ -226,10 +200,7 @@ export default function Navbar() {
               })}
             </ul>
           </div>
-          <div
-            onClick={toggleUserMenu}
-            className="relative flex gap-4 bg-blue-50 shadow-sm px-6 6 cursor-pointer rounded-lg py-2"
-          >
+          <div onClick={toggleUserMenu} className="relative flex gap-4 bg-blue-50 shadow-sm px-4 cursor-pointer rounded-lg py-1"> {/* Reduced padding */}
             <div>
               <h4 className="text-xl font-semibold">{userData.userName}</h4>
               <p className="text-center text-sm">{userData.role}</p>
@@ -239,40 +210,37 @@ export default function Navbar() {
             </button>
             {userData?.role === "Admin"
               ? isUserMenuOpen && (
-                  <div className="absolute right-20 top-16 mt-3 w-48 bg-white rounded-lg shadow-xl z-20 ">
-                    <div className="py-1">
-                      {userMenuItems?.map((item) => (
+                <div className="absolute right-20 top-16 mt-3 w-48 bg-white rounded-lg shadow-xl z-20">
+                  <div className="py-1">
+                    {userMenuItems?.map((item) => (
+                      <button
+                        key={item.name}
+                        onClick={item.onClick}
+                        className="block px-4 py-1 text-md font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-700 w-full text-left"
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )
+              : isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                  <div className="py-1">
+                    {userMenuItems
+                      .filter((item) => item.name === "Logout" || item.name === "Profile")
+                      .map((item) => (
                         <button
                           key={item.name}
                           onClick={item.onClick}
-                          className="block px-4 py-1 text-md font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-700 w-full text-left"
+                          className="block px-4 py-2 text-md font-medium text-gray-600 hover:bg-gray-300 w-full text-left"
                         >
                           {item.name}
                         </button>
                       ))}
-                    </div>
                   </div>
-                )
-              : isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-                    <div className="py-1">
-                      {userMenuItems
-                        .filter(
-                          (item) =>
-                            item.name === "Logout" || item.name === "Profile"
-                        )
-                        .map((item) => (
-                          <button
-                            key={item.name}
-                            onClick={item.onClick}
-                            className="block px-4 py-2 text-md font-medium text-gray-600 hover:bg-gray-300 w-full text-left"
-                          >
-                            {item.name}
-                          </button>
-                        ))}
-                    </div>
-                  </div>
-                )}
+                </div>
+              )}
           </div>
           <div className="lg:hidden order-first">
             <TiThMenu
@@ -283,15 +251,11 @@ export default function Navbar() {
         </div>
         {isMenuOpen && (
           <div className="absolute inset-x-0 top-0 z-50 origin-top-right transform transition lg:hidden">
-            <div className="divide-y-2 divide-gray-50 w-[40vw] h-[100vh]  bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+            <div className="divide-y-2 divide-gray-50 w-[40vw] h-[100vh] bg-white shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="px-5 pb-6 pt-5">
                 <div className="flex items-center justify-between">
                   <div className="">
-                    <img
-                      className="h-10 w-auto"
-                      src={logo}
-                      alt="Your Company"
-                    />
+                    <img className="h-10 w-auto" src={logo} alt="Your Company" />
                   </div>
                   <div className="relative">
                     <button
@@ -303,9 +267,29 @@ export default function Navbar() {
                     </button>
                     {userData?.role === "Admin"
                       ? isUserMenuOpen && (
-                          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 user-menu">
-                            <div className="py-1">
-                              {userMenuItems?.map((item) => (
+                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 user-menu">
+                          <div className="py-1">
+                            {userMenuItems?.map((item) => (
+                              <button
+                                key={item.name}
+                                onClick={() => {
+                                  item.onClick();
+                                  setIsMenuOpen(!isMenuOpen);
+                                }}
+                                className="block px-4 py-2 text-md font-medium text-gray-600 hover:bg-gray-300 w-full text-left"
+                              >
+                                {item.name}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                      : isUserMenuOpen && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 user-menu">
+                          <div className="py-1">
+                            {userMenuItems
+                              .filter((item) => item.name === "Logout" || item.name === "Profile")
+                              .map((item) => (
                                 <button
                                   key={item.name}
                                   onClick={() => {
@@ -317,92 +301,63 @@ export default function Navbar() {
                                   {item.name}
                                 </button>
                               ))}
-                            </div>
                           </div>
-                        )
-                      : isUserMenuOpen && (
-                          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 user-menu">
-                            <div className="py-1">
-                              {userMenuItems
-                                .filter(
-                                  (item) =>
-                                    item.name === "Logout" ||
-                                    item.name === "Profile"
-                                )
-                                .map((item) => (
-                                  <button
-                                    key={item.name}
-                                    onClick={() => {
-                                      item.onClick();
-                                      setIsMenuOpen(!isMenuOpen);
-                                    }}
-                                    className="block px-4 py-2 text-md font-medium text-gray-600 hover:bg-gray-300 w-full text-left"
-                                  >
-                                    {item.name}
-                                  </button>
-                                ))}
-                            </div>
-                          </div>
-                        )}
+                        </div>
+                      )}
                   </div>
                   <div className="order-first">
                     <button
                       type="button"
                       onClick={toggleMenu}
-                      className="inline-flex items-center justify-center rounded-md  text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                      className="inline-flex items-center justify-center rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                     >
                       <span className="sr-only">Close menu</span>
-                      <RxCross2
-                        className="h-8 w-8 text-gray-700"
-                        aria-hidden="true"
-                      />
+                      <RxCross2 className="h-8 w-8 text-gray-700" aria-hidden="true" />
                     </button>
                   </div>
                 </div>
-                <div className="mt-10 flex ">
+                <div className="mt-10 flex">
                   <nav className="grid gap-y-4">
                     <ul className="mx-2">
                       {userData?.role === "Admin"
                         ? menuItems?.map((item) => {
-                            const active =
-                              mainUrl[0] === item.href
-                                ? "bg-gray-200 text-teal-500 duration-1000 transition-colors ease-in-out"
-                                : "";
-                            return (
-                              <li key={item.name} className="my-3">
-                                <Link
-                                  to={item.href}
-                                  onClick={() => {
-                                    setIsUserMenuOpen(false);
-                                    setIsMenuOpen(!isMenuOpen);
-                                  }}
-                                  className={`text-lg px-2 rounded-md py-1 font-semibold text-gray-700 no-underline hover:text-teal-500  ${active}`}
-                                >
-                                  {item.name}
-                                </Link>
-                              </li>
-                            );
-                          })
+                          const active = mainUrl[0] === item.href
+                            ? "bg-gray-200 text-teal-500 duration-1000 transition-colors ease-in-out"
+                            : "";
+                          return (
+                            <li key={item.name} className="my-3">
+                              <Link
+                                to={item.href}
+                                onClick={() => {
+                                  setIsUserMenuOpen(false);
+                                  setIsMenuOpen(!isMenuOpen);
+                                }}
+                                className={`text-lg px-2 rounded-md py-1 font-semibold text-gray-700 no-underline hover:text-teal-500 ${active}`}
+                              >
+                                {item.name}
+                              </Link>
+                            </li>
+                          );
+                        })
                         : filteredMenuItems?.map((item) => {
-                            const active =
-                              mainUrl[0] === item.href
-                                ? "bg-gray-200 text-teal-500 duration-1000 transition-colors ease-in-out"
-                                : "";
-                            return (
-                              <li key={item.name} className="my-3">
-                                <NavLink
-                                  to={item.href}
-                                  className={`text-lg px-2 rounded-md py-1 font-semibold text-gray-700 no-underline hover:text-teal-500 ${active}`}
-                                  onClick={() => {
-                                    setIsUserMenuOpen(false);
-                                    setIsMenuOpen(!isMenuOpen);
-                                  }}
-                                >
-                                  {item.name}
-                                </NavLink>
-                              </li>
-                            );
-                          })}
+                          const active = mainUrl[0] === item.href
+                            ? "bg-gray-200 text-teal-500 duration-1000 transition-colors ease-in-out"
+                            : "";
+                          return (
+                            <li key={item.name} className="my-3">
+                              <NavLink
+                                to={item.href}
+                                className={`text-lg px-2 rounded-md py-1 font-semibold text-gray-700 no-underline hover:text-teal-500 ${active}`}
+                                onClick={() => {
+                                  setIsUserMenuOpen(false);
+                                  setIsMenuOpen(!isMenuOpen);
+                                }}
+                              >
+                                {item.name}
+                              </NavLink>
+                            </li>
+                          );
+                        })}
                     </ul>
                   </nav>
                 </div>
@@ -412,5 +367,6 @@ export default function Navbar() {
         )}
       </div>
     </>
+
   );
 }
