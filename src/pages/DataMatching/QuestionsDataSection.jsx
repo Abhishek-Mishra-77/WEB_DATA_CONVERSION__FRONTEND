@@ -73,7 +73,7 @@ const QuestionsDataSection = ({
                     </div>
                   );
                 }
-                return null; // Ensure that undefined values do not break the component
+                return null;
               })}
           </div>
         </div>

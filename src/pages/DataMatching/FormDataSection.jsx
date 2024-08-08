@@ -65,7 +65,6 @@ const FormDataSection = ({
             })}
         </article>
       </div>
-      {/* View image */}
     </div>
   );
 };

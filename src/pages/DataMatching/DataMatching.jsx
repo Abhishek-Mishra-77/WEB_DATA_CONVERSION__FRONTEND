@@ -44,6 +44,27 @@ const DataMatching = () => {
   const token = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
   const inputRefs = useRef([]);
+  const [os, setOs] = useState('Unknown OS');
+
+
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent;
+    const platform = window.navigator.platform;
+    if (platform.includes('Win')) {
+      setOs('Windows');
+    } else if (platform.includes('Mac')) {
+      setOs('macOS');
+    } else if (userAgent.includes('Ubuntu')) {
+      setOs('Ubuntu');
+    } else if (platform.includes('Linux') || userAgent.includes('Linux')) {
+      setOs('Linux');
+    } else if (/Android/.test(userAgent)) {
+      setOs('Android');
+    } else if (/iPhone|iPad|iPod/.test(userAgent)) {
+      setOs('iOS');
+    }
+  }, []);
+
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -218,7 +239,10 @@ const DataMatching = () => {
       const handleKeyDown = (event) => {
         if (event.ctrlKey && event.key === "ArrowLeft") {
           setPopUp(true);
-        } else if (event.altKey && (event.key === "s" || event.key === "S")) {
+        } else if (
+          (os !== 'Ubuntu' && event.altKey && (event.key === 's' || event.key === 'S')) ||
+          (os === 'Ubuntu' && event.shiftKey && (event.key === 's' || event.key === 'S'))
+        ) {
           setCsvCurrentData((prevData) => ({
             ...prevData,
           }));
@@ -713,7 +737,7 @@ const DataMatching = () => {
     <>
       {(userRole === "Operator" || userRole === "Moderator") && (
         <div>
-          <div>
+          <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-16">
             {popUp && (
               <>
                 <UserTaskAssined
@@ -726,7 +750,7 @@ const DataMatching = () => {
               </>
             )}
             {!popUp && (
-              <div className=" flex flex-col lg:flex-row  bg-gradient-to-r from-blue-400 to-blue-600 dataEntry pt-20">
+              <div className=" flex flex-col lg:flex-row  bg-gradient-to-r from-blue-400 to-blue-600 dataEntry ">
                 {/* LEFT SECTION */}
                 <FormDataSection
                   csvCurrentData={csvCurrentData}
