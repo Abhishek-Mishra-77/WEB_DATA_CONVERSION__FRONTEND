@@ -50,7 +50,7 @@ function App() {
       <Routes>
         {datactx.isLogin && (
           <>
-            {role === "Admin" && (
+            {(role === "Admin" || role === "Moderator") && (
               <>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/create-user" element={<CreateUser />} />

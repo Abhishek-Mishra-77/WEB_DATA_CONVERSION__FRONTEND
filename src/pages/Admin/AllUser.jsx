@@ -3,7 +3,6 @@ import React, {
   useEffect,
   Fragment,
   useRef,
-  useContext,
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,10 +12,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { REACT_APP_IP, onGetVerifiedUserHandler } from "../../services/common";
-import dataContext from "../../Store/DataContext";
-
 import { onGetAllUsersHandler } from "../../services/common";
-
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 export function AllUser() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
@@ -25,8 +22,9 @@ export function AllUser() {
   const cancelButtonRef = useRef(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const token = JSON.parse(localStorage.getItem("userData"));
-  const dataCtx = useContext(dataContext);
   const [currentUser, setCurrentUser] = useState(null);
+  const [removeUserId, setRemoveUserId] = useState("");
+  const [confirmationModal, setConfirmationModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -53,6 +51,10 @@ export function AllUser() {
   }, [updateSuccess]);
 
   const onModelHandler = async (user) => {
+    if (currentUser?.role === "Moderator" || currentUser?.role === "Operator") {
+      toast.warning("You don't have access to perform this operation.")
+      return;
+    }
     setOpen(true);
     setSelectedUser(user);
   };
@@ -106,9 +108,13 @@ export function AllUser() {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
+  const handleDeleteUser = async () => {
+    if (currentUser?.role === "Moderator" || currentUser?.role === "Operator") {
+      toast.warning("You don't have access to perform this operation.")
+      return;
+    }
     try {
-      if (userId === currentUser?.id) {
+      if (+removeUserId === currentUser?.id) {
         toast.error("You cannot delete yourself.", {
           position: "bottom-right",
           autoClose: 2000,
@@ -120,15 +126,9 @@ export function AllUser() {
         });
         return;
       }
-      const confirmed = window.confirm(
-        "Are you sure you want to delete this user?"
-      );
-      if (!confirmed) {
-        return;
-      }
 
       await axios.post(
-        `http://${REACT_APP_IP}:4000/users/deleteuser/${userId}`,
+        `http://${REACT_APP_IP}:4000/users/deleteuser/${+removeUserId}`,
         {},
         {
           headers: {
@@ -136,7 +136,7 @@ export function AllUser() {
           },
         }
       );
-      setUsers(users.filter((user) => user.id !== userId));
+      setUsers(users.filter((user) => user.id !== +removeUserId));
       toast.success("User Deleted Successfully", {
         position: "bottom-left",
         autoClose: 1000,
@@ -146,6 +146,8 @@ export function AllUser() {
         draggable: true,
         theme: "dark",
       });
+      setConfirmationModal(false);
+      setRemoveUserId("");
     } catch (error) {
       console.error("Error deleting user:", error);
       toast.error("Error in deleting user", {
@@ -159,14 +161,10 @@ export function AllUser() {
       });
     }
   };
+
   const closeModal = () => {
     setOpen(false);
   };
-
-  // const validateMobile = (value) => {
-  //   const regex = /^\d{10}$/;
-  //   return regex.test(value);
-  // };
 
   const onUserDetailHandler = (id) => {
     navigate(`/user-detail/${id}`);
@@ -184,15 +182,16 @@ export function AllUser() {
           <div>
             <h2 className="text-3xl font-semibold">All Users</h2>
           </div>
-          <div>
-            <button
-              type="button"
-              onClick={() => navigate("/create-user")}
-              className="rounded-md  bg-indigo-600 hover:bg-indigo-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 px-3 py-2 text-sm  text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              Add New User
-            </button>
-          </div>
+          {currentUser?.role === "Admin" &&
+            <div>
+              <button
+                type="button"
+                onClick={() => navigate("/create-user")}
+                className="rounded-md  bg-indigo-600 hover:bg-indigo-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 px-3 py-2 text-sm  text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Add New User
+              </button>
+            </div>}
         </div>
         <div className="mt-6 flex flex-col">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -319,7 +318,10 @@ export function AllUser() {
                         <td className="whitespace-nowrap px-4 py-4 text-right text-2xl font-semibold">
                           <Link to="#" className="text-red-600">
                             <RiDeleteBin6Line
-                              onClick={() => handleDeleteUser(user.id)}
+                              onClick={() => {
+                                setRemoveUserId(user.id)
+                                setConfirmationModal(true)
+                              }}
                             />
                           </Link>
                         </td>
@@ -553,6 +555,14 @@ export function AllUser() {
             </div>
           </Dialog>
         </Transition.Root>
+
+        <ConfirmationModal
+          confirmationModal={confirmationModal}
+          onSubmitHandler={handleDeleteUser}
+          setConfirmationModal={setConfirmationModal}
+          heading="Delete User"
+          message="Are you sure you want to remove the user?"
+        />
       </section>
     </div>
   );

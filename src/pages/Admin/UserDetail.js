@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { REACT_APP_IP } from "../../services/common";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 function UserDetail() {
   const [userDetails, setUserDetails] = useState([]);
@@ -33,7 +33,6 @@ function UserDetail() {
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = userDetails.slice(indexOfFirstRow, indexOfLastRow);
 
   const totalPages = Math.ceil(userDetails.length / rowsPerPage);
 
@@ -67,7 +66,15 @@ function UserDetail() {
       <div className="overflow-x-auto rounded-3xl w-[800px] shadow-sm shadow-white">
         <div className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm w-full">
           <div className="px-4 py-8">
-            <h1 className="text-3xl font-semibold px-4 pb-6">User Detail</h1>
+            <div className="flex justify-between items-center mb-4">
+              <h1 className="text-3xl font-semibold px-4 pb-6">User Detail</h1>
+              <Link to={"/all-user"}
+                className="px-8 py-2 bg-blue-500 mr-4 text-white rounded-lg shadow-md hover:bg-blue-600"
+              >
+                Back
+              </Link>
+            </div>
+
             <div className="mx-4 border-2 rounded-xl">
               <div className="ltr:text-left rtl:text-right">
                 <div className="text-xl flex font-bold text-center border-b-2 border-gray-200">

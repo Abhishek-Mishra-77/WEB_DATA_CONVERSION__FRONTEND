@@ -171,6 +171,7 @@ export default function Navbar() {
       }
     });
 
+
   return (
     <>
       <div className={`fixed w-full z-10 bg-white backdrop-blur-sm`}>
@@ -208,18 +209,27 @@ export default function Navbar() {
             <button type="button" className="rounded-full">
               <FaCircleUser className="w-7 h-7 text- mt-1 text-indigo-700" />
             </button>
-            {userData?.role === "Admin"
+            {(userData?.role === "Admin" || userData?.role === "Moderator")
               ? isUserMenuOpen && (
                 <div className="absolute right-20 top-16 mt-3 w-48 bg-white rounded-lg shadow-xl z-20">
                   <div className="py-1">
                     {userMenuItems?.map((item) => (
-                      <button
-                        key={item.name}
-                        onClick={item.onClick}
-                        className="block px-4 py-1 text-md font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-700 w-full text-left"
-                      >
-                        {item.name}
-                      </button>
+                      <>
+                        {(userData?.role === "Moderator" && item.name !== "Create User") ? <button
+                          key={item.name}
+                          onClick={item.onClick}
+                          className="block px-4 py-1 text-md font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-700 w-full text-left"
+                        >
+                          {item.name}
+                        </button> :
+                          userData?.role === "Admin" && <button
+                            key={item.name}
+                            onClick={item.onClick}
+                            className="block px-4 py-1 text-md font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-700 w-full text-left"
+                          >
+                            {item.name}
+                          </button>}
+                      </>
                     ))}
                   </div>
                 </div>

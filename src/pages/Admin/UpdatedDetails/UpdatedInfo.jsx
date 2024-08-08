@@ -1,14 +1,23 @@
 import React from 'react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
-const UpdatedInfo = ({ updatedData, setOpenImage, setUpdatedImages, setImageDetails }) => {
+const UpdatedInfo = ({ updatedData, setOpenImage, setUpdatedImages, setImageDetails, setIsVisible }) => {
     return (
         <div className="overflow-x-auto rounded-3xl w-[800px] shadow-sm shadow-white">
             <div className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm w-full">
                 <div className="px-4 py-8">
-                    <h1 className="text-3xl font-semibold px-4 pb-8 pt-4">
-                        Updated Details
-                    </h1>
+                    <div className="flex justify-between gap-4 p-4">
+                        <h1 className="block text-gray-900 text-3xl font-semibold">
+                            Updated Details
+                        </h1>
+                        <button
+                            onClick={() => setIsVisible(true)}
+                            className="px-8 py-2 bg-blue-500 mr-4 text-white rounded-lg shadow-md hover:bg-blue-600"
+                        >
+                            Back
+                        </button>
+                    </div>
                     <div className="mx-4 border-2 rounded-xl">
                         <div className="ltr:text-left rtl:text-right">
                             <div className="text-xl flex font-bold text-center">

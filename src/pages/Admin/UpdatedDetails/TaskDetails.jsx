@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const TaskDetails = ({ onBackGroundClickHandler, renderTableRows, setCurrentPage, currentPage, totalPages }) => {
     return (
@@ -12,12 +13,15 @@ const TaskDetails = ({ onBackGroundClickHandler, renderTableRows, setCurrentPage
                 className="rounded-xl border border-gray-100 bg-white p-12"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex items-start gap-4">
-                    <div className="flex-1">
-                        <h1 className="block text-gray-900 text-3xl font-semibold">
-                            All Tasks
-                        </h1>
-                    </div>
+                <div className="flex justify-between p-4">
+                    <h1 className="block text-gray-900 text-3xl font-semibold">
+                        All Tasks
+                    </h1>
+                    <Link to={"/all-user"}
+                        className="px-8 py-2 bg-blue-500 mr-4 text-white rounded-lg shadow-md hover:bg-blue-600"
+                    >
+                        Back
+                    </Link>
                 </div>
                 <div className=" rounded-xl my-6">
                     <div className="rounded-lg ">
@@ -119,7 +123,7 @@ const TaskDetails = ({ onBackGroundClickHandler, renderTableRows, setCurrentPage
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

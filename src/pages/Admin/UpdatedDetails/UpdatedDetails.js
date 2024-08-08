@@ -213,6 +213,7 @@ function UpdatedDetails() {
             setOpenImage={setOpenImage}
             setUpdatedImages={setUpdatedImages}
             setImageDetails={setImageDetails}
+            setIsVisible={setIsVisible}
           />
           <UpdatedImage
             setOpenImage={setOpenImage}
