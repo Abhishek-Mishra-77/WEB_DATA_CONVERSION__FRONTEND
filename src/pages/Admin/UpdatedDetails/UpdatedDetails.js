@@ -16,9 +16,12 @@ function UpdatedDetails() {
   const [updatedData, setUpdatedData] = useState(null);
   const [currentTask, setCurrentTask] = useState(null);
   const [openImage, setOpenImage] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [updatedImages, setUpdatedImages] = useState([]);
+  const [openImageDetails, setImageDetails] = useState(null);
   let token = JSON.parse(localStorage.getItem("userData"));
   const { id } = useParams();
+
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -35,6 +38,7 @@ function UpdatedDetails() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -69,10 +73,9 @@ function UpdatedDetails() {
           },
         }
       );
-      setUpdatedData(response.data);
+      setUpdatedData(response?.data);
       setIsVisible(false);
       setCurrentTask(taskData);
-      console.log(response);
     } catch (error) {
       toast.error(error?.response?.data?.error);
       console.log(error);
@@ -165,7 +168,33 @@ function UpdatedDetails() {
     ));
   };
 
+  const onVerifyDetailHandler = async () => {
+    try {
+      await axios.post(
+        `http://${REACT_APP_IP}:4000/verify/updateddetails`,
+        { updatedId: openImageDetails?.id },
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      setUpdatedData((prev) => {
+        const updatedIsVerified = [...prev.isVerified];
+        updatedIsVerified[openImageDetails?.index] = true;
 
+        return {
+          ...prev,
+          isVerified: updatedIsVerified,
+        };
+      });
+      setImageDetails(null)
+      setOpenImage(false);
+    } catch (error) {
+      toast.error(error?.response?.data?.error);
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
@@ -183,12 +212,17 @@ function UpdatedDetails() {
             updatedData={updatedData}
             setOpenImage={setOpenImage}
             setUpdatedImages={setUpdatedImages}
+            setImageDetails={setImageDetails}
           />
           <UpdatedImage
             setOpenImage={setOpenImage}
             openImage={openImage}
             updatedImages={updatedImages}
             setUpdatedImages={setUpdatedImages}
+            currentImageIndex={currentImageIndex}
+            setCurrentImageIndex={setCurrentImageIndex}
+            openImageDetails={openImageDetails}
+            onVerifyDetailHandler={onVerifyDetailHandler}
           />
         </Fragment>
       )}
