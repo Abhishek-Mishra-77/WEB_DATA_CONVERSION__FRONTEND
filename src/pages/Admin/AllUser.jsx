@@ -36,6 +36,13 @@ export function AllUser() {
     fetchUser();
   }, []);
 
+
+  useEffect(() => {
+    if (!confirmationModal) {
+      setRemoveUserId("")
+    }
+  }, [setConfirmationModal, confirmationModal])
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -126,7 +133,6 @@ export function AllUser() {
         });
         return;
       }
-
       await axios.post(
         `http://${REACT_APP_IP}:4000/users/deleteuser/${+removeUserId}`,
         {},
