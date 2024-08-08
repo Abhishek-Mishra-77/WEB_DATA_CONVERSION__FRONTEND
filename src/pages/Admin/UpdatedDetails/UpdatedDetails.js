@@ -83,10 +83,10 @@ function UpdatedDetails() {
   };
 
   const totalPages = Math.ceil(allTasks.length / rowsPerPage);
-
   const renderTableRows = () => {
     const startIndex = (currentPage - 1) * rowsPerPage;
     const selectedRows = allTasks?.slice(startIndex, startIndex + rowsPerPage);
+    console.log(selectedRows)
     return selectedRows.map((taskData, index) => (
       <div key={taskData.id} className="flex  py-2 w-full">
         <div className="whitespace-nowrap w-[150px] px-4">
@@ -112,12 +112,12 @@ function UpdatedDetails() {
         <div className="whitespace-nowrap w-[150px] px-4">
           <div className="text-md text-center">
             <span
-              className={`inline-flex items-center justify-center rounded-full ${!taskData.blankTaskStatus || !taskData.multTaskStatus
+              className={`inline-flex items-center justify-center rounded-full ${!taskData.taskStatus
                 ? "bg-amber-100 text-amber-700"
                 : "bg-emerald-100 text-emerald-700"
                 } px-2.5 py-0.5 `}
             >
-              {!taskData.blankTaskStatus || !taskData.multTaskStatus ? (
+              {!taskData.taskStatus ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -149,7 +149,7 @@ function UpdatedDetails() {
                 </svg>
               )}
               <p className="whitespace-nowrap text-sm">
-                {taskData.blankTaskStatus && taskData.multTaskStatus
+                {taskData.taskStatus
                   ? "Completed"
                   : "Pending"}
               </p>
