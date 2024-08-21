@@ -21,6 +21,8 @@ const UploadSection = ({
   imageFolder,
   onSaveFilesHandler,
 }) => {
+
+ 
   return (
     <div className="pt-4 xl:pt-0 bg-gradient-to-r from-blue-400 to-blue-600">
       <div className="xl:flex justify-center items-center gap-5 mx-5 pt-20">

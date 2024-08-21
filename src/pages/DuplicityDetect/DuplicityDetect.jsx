@@ -225,6 +225,9 @@ const ImageScanner = () => {
     }
   };
 
+
+  console.log(currentRowData)
+
   const onRemoveDuplicateHandler = async (index, rowIndex, colName) => {
     const currentData = [...allCurrentData];
     const allDuplicateData = [...duplicatesData];

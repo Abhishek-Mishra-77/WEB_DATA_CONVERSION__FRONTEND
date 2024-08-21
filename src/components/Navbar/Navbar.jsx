@@ -6,7 +6,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import dataContext from "../../Store/DataContext";
 import axios from "axios";
-import { onGetVerifiedUserHandler, REACT_APP_IP } from "../../services/common";
+import { onGetVerifiedUserHandler, SERVER_IP } from "../../services/common";
 
 const menuItems = [
   {
@@ -111,7 +111,7 @@ export default function Navbar() {
       name: "Logout",
       onClick: async () => {
         try {
-          await axios.post(`http://${REACT_APP_IP}:4000/users/logout`, {
+          await axios.post(`${SERVER_IP}/users/logout`, {
             userId: userData.id,
           });
           localStorage.clear();

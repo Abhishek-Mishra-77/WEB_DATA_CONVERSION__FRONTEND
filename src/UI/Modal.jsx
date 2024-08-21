@@ -4,9 +4,8 @@ const ModalWithLoadingBar = ({ isOpen, onClose, progress, message }) => {
   return (
     // Modal backdrop and container
     <div
-      className={`fixed inset-0 flex items-center justify-center z-50 ${
-        isOpen ? "block" : "hidden"
-      }`}
+      className={`fixed inset-0 flex items-center justify-center z-50 ${isOpen ? "block" : "hidden"
+        }`}
     >
       {/* Backdrop to block interactions with elements behind the modal */}
       <div className="fixed inset-0 bg-gray-900 opacity-75"></div>
@@ -22,16 +21,21 @@ const ModalWithLoadingBar = ({ isOpen, onClose, progress, message }) => {
           <span
             role="progressbar"
             aria-labelledby="ProgressLabel"
-            aria-valuenow="50"
+            aria-valuenow={progress}
             className="block rounded-full bg-gray-200"
           >
             <span
               className="block h-4 rounded-full bg-indigo-600 text-center text-[10px]/4"
               style={{ width: `${progress}%` }}
             >
-              <span className="font-bold text-white">{progress}% </span>
+              {progress < 100 ? (
+                <span className="font-bold text-white">{progress}%</span>
+              ) : (
+                <span className="font-bold text-white text-md">Please wait extracting images</span>
+              )}
             </span>
           </span>
+
         </div>
 
         {/* Modal content */}

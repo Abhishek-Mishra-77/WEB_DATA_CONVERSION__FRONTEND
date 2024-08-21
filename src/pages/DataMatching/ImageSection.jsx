@@ -9,6 +9,10 @@ const ImageSection = ({
   selectedCoordintes,
   templateHeaders,
 }) => {
+  const imageUrl = imageUrls[currentImageIndex];
+  console.log(imageUrl)
+
+
   return (
     <div
       ref={imageContainerRef}
@@ -22,20 +26,36 @@ const ImageSection = ({
         scrollbarWidth: "thin",
       }}
     >
-      <img
-        // src={`data:image/jpeg;base64,${imageUrls[currentImageIndex]?.base64Image}`}
-        src={`http://${REACT_APP_IP}:4000/images/${imageUrls[currentImageIndex]}`}
-        alt="Selected"
-        ref={imageRef}
-        style={{
-          width: "48rem",
-          transform: `scale(${zoomLevel})`,
-          transformOrigin: "center center",
-          borderRadius: "0.5rem",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.8)",
-        }}
-        draggable={false}
-      />
+      {imageUrl ? (
+        <img
+          src={`http://${REACT_APP_IP}:4000/images/${imageUrl}`}
+          alt="Selected"
+          ref={imageRef}
+          style={{
+            width: "48rem",
+            transform: `scale(${zoomLevel})`,
+            transformOrigin: "center center",
+            borderRadius: "0.5rem",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.8)",
+          }}
+          draggable={false}
+        />
+      ) : (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#ff0000",
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+          }}
+        >
+          Image not found
+        </div>
+      )}
 
       {!selectedCoordintes &&
         templateHeaders?.templetedata?.map(

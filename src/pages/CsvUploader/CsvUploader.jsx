@@ -14,6 +14,7 @@ import TemplateRemove from "./TemplateRemove";
 import TemplateEdit from "./TemplateEdit";
 import UploadSection from "./UploadSection";
 
+
 const CsvUploader = () => {
   const [csvFile, setCsvFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -91,6 +92,7 @@ const CsvUploader = () => {
 
   const onImageFolderHandler = (event) => {
     const fileInput = event.target.files[0];
+    console.log(fileInput);
     handleFileUpload(
       fileInput,
       ["zip", "folder", "rar"],
@@ -112,6 +114,45 @@ const CsvUploader = () => {
         return;
       }
       setFileState(file);
+    }
+  };
+
+  const uploadChunk = async (zipFile, chunkIndex, totalChunks, overallProgressCallback) => {
+    try {
+      // Get the original name of the zip file
+      const zipFileName = imageFolder?.name;
+
+      const formData = new FormData();
+      formData.append("chunk", zipFile); // Make sure 'chunk' matches with multer config
+      formData.append("csvFile", csvFile);
+      formData.append("chunkIndex", chunkIndex);
+      formData.append("totalChunks", totalChunks);
+
+      // Append the original zip file name
+      formData.append("zipFileName", zipFileName);
+
+      const imageNamesString = imageNames.join(",");
+
+      const response = await axios.post(
+        `http://${REACT_APP_IP}:4000/upload/${selectedId}?imageNames=${imageNamesString}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: token,
+          },
+          onUploadProgress: (progressEvent) => {
+            // Calculate the progress of the current chunk
+            const chunkProgress = (progressEvent.loaded / progressEvent.total) * 100;
+            // Pass the calculated chunk progress to the callback
+            overallProgressCallback(chunkProgress, chunkIndex);
+          },
+        }
+      );
+
+      return response.data; // Return the response from the server
+    } catch (error) {
+      throw new Error(error.response?.data?.error || "Upload failed.");
     }
   };
 
@@ -140,49 +181,51 @@ const CsvUploader = () => {
       toast.error("Please upload the image folder.");
       return;
     }
+
+    const chunkSize = 2 * 1024 * 1024 * 1024 - 1; // 1 byte less than 2GB
+    const totalChunks = Math.ceil(imageFolder.size / chunkSize);
+    let start = 0;
+    let chunkIndex = 0;
+    let overallProgress = 0;
+
     setLoading(true);
     dataCtx.modifyIsLoading(true);
-    const formData = new FormData();
-    formData.append("csvFile", csvFile);
-    formData.append("zipFile", imageFolder);
-
     const imageNamesString = imageNames.join(",");
+    try {
+      let fileId;
 
-    if (selectedId) {
-      try {
-        const response = await axios.post(
-          `http://${REACT_APP_IP}:4000/upload/${selectedId}?imageNames=${imageNamesString}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              token: token,
-            },
-            timeout: 60 * 60 * 1000,
-            onUploadProgress: (progressEvent) => {
-              // Calculate percentage completed
-              const percentage = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total
-              );
-              // Update state with percentage completed
-              setProgress(percentage);
-            },
-          }
-        );
-        const fileId = response.data;
-        toast.success("Files uploaded successfully!");
-        dataCtx.modifyIsLoading(false);
-        navigate(`/csvuploader/duplicatedetector/${selectedId}`);
-        localStorage.setItem("fileId", JSON.stringify(fileId));
-        localStorage.setItem("pageCount", JSON.stringify(data.pageCount));
-        localStorage.setItem("imageName", JSON.stringify(imageNamesString));
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        toast.error(error.response?.data?.error);
+      // Define the overall progress callback to calculate the total progress percentage
+      const updateOverallProgress = (chunkProgress, chunkIndex) => {
+        overallProgress = ((chunkIndex + chunkProgress / 100) / totalChunks) * 100;
+        setProgress(Math.round(overallProgress));
+      };
+
+      while (start < imageFolder.size) {
+        const chunk = imageFolder.slice(start, start + chunkSize);
+
+        fileId = await uploadChunk(chunk, chunkIndex, totalChunks, updateOverallProgress);
+
+        start += chunkSize;
+        chunkIndex += 1;
       }
+
+      // All chunks have been uploaded, navigate and finalize
+      toast.success("Files uploaded successfully!");
+      dataCtx.modifyIsLoading(false);
+      navigate(`/csvuploader/duplicatedetector/${selectedId}`);
+      localStorage.setItem("fileId", JSON.stringify(fileId));
+      localStorage.setItem("pageCount", JSON.stringify(data.pageCount));
+      localStorage.setItem("imageName", JSON.stringify(imageNamesString));
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
+
+  console.log(progress)
+
+
 
   const onTemplateEditHandler = async (id) => {
     try {
