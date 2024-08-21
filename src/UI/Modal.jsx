@@ -22,19 +22,23 @@ const ModalWithLoadingBar = ({ isOpen, onClose, progress, message }) => {
             role="progressbar"
             aria-labelledby="ProgressLabel"
             aria-valuenow={progress}
-            className="block rounded-full bg-gray-200"
+            className="block w-full bg-gray-300 rounded-full"
           >
             <span
-              className="block h-4 rounded-full bg-indigo-600 text-center text-[10px]/4"
-              style={{ width: `${progress}%` }}
+              className="block h-6 rounded-full bg-indigo-600 flex items-center justify-center"
+              style={{ width: `${progress}%`, transition: "width 0.5s ease-in-out" }}
             >
               {progress < 100 ? (
-                <span className="font-bold text-white">{progress}%</span>
+                <span className="font-medium text-white text-xs">{progress}%</span>
               ) : (
-                <span className="font-bold text-white text-md">Please wait extracting images</span>
+                <span className="font-medium text-white text-sm">
+                  Please wait, extracting images...
+                </span>
               )}
             </span>
           </span>
+
+
 
         </div>
 

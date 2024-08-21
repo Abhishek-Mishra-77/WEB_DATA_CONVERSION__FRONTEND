@@ -223,7 +223,6 @@ const CsvUploader = () => {
     }
   };
 
-  console.log(progress)
 
 
 
@@ -285,6 +284,7 @@ const CsvUploader = () => {
       toast.warning(error?.response?.data?.error);
     }
   };
+
 
   return (
     <div className="flex justify-center items-center h-auto w-full ">
