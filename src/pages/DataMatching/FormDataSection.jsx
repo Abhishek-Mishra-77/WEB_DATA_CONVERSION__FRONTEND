@@ -52,7 +52,7 @@ const FormDataSection = ({
                         ${i === currentFocusIndex ? "bg-yellow-300 text-black" : ""}
                       `}
                       ref={(el) => (inputRefs.current[i] = el)}
-                      value={String(csvCurrentData[key]) === ("" || " ") ? String(csvCurrentData[key])?.trim() : String(csvCurrentData[key])}
+                      value={csvCurrentData[key]}
                       onKeyDown={(e) => handleKeyDownJump(e, i)}
                       onChange={(e) =>
                         changeCurrentCsvDataHandler(key, e.target.value)

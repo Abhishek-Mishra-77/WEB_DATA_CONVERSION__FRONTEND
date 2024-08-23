@@ -10,7 +10,6 @@ const ImageSection = ({
   templateHeaders,
 }) => {
   const imageUrl = imageUrls[currentImageIndex];
-  console.log(imageUrl)
 
 
   return (

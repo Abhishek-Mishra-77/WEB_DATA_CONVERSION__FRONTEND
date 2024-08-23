@@ -310,7 +310,6 @@ const DataMatching = () => {
           inputRefs.current.length;
 
         const [nextKey, nextValue] = Object.entries(csvCurrentData)[nextIndex];
-
         // Check if nextValue meets the condition
         if (
           nextValue === "" ||
@@ -375,15 +374,35 @@ const DataMatching = () => {
       let allImagePaths;
       if (direction === "initial") {
         const objects = csvData[newIndex];
-        allImagePaths = imageNames.map((key) => objects[key]);
-        setCsvCurrentData(objects);
+        if (objects && typeof objects === 'object') {
+          const trimmedObjects = Object.fromEntries(
+            Object.entries(objects).map(([key, value]) => {
+              return [key, typeof value === 'string' ? value.trim() : value];
+            })
+          );
+          allImagePaths = imageNames.map((key) => trimmedObjects[key]);
+          setCsvCurrentData(trimmedObjects);
+        }
       } else {
         newIndex = direction === "next" ? newIndex + 1 : newIndex - 1;
         if (newIndex > 0 && newIndex < csvData.length) {
           setCurrentIndex(newIndex);
           const objects = csvData[newIndex];
-          allImagePaths = imageNames.map((key) => objects[key]);
-          setCsvCurrentData(objects);
+          if (objects && typeof objects === 'object') {
+            // Create a new object with trimmed values
+            const trimmedObjects = Object.fromEntries(
+              Object.entries(objects).map(([key, value]) => {
+                // Trim the value if it's a string
+                return [key, typeof value === 'string' ? value.trim() : value];
+              })
+            );
+
+            // Process image paths
+            allImagePaths = imageNames.map((key) => trimmedObjects[key]);
+
+            // Update state with the trimmed object
+            setCsvCurrentData(trimmedObjects);
+          }
         } else {
           toast.warning(
             direction === "next"
@@ -442,6 +461,7 @@ const DataMatching = () => {
       setImageNotFound(false);
     }
   };
+
 
   const changeCurrentCsvDataHandler = (key, newValue) => {
     if (!imageNotFound) {
