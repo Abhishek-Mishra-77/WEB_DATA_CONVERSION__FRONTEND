@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { toast } from "react-toastify";
@@ -9,6 +9,7 @@ import FindDuplicate from "./FindDuplicate";
 import DuplicatesData from "./DuplicateData";
 import EditDuplicateData from "./EditDuplicateData";
 import DuplicateImage from "./DuplicateImage";
+import Loader from "../../components/Loader/Loader";
 
 const ImageScanner = () => {
   const [csvHeaders, setCsvHeaders] = useState([]);
@@ -22,6 +23,7 @@ const ImageScanner = () => {
   const [allCurrentData, setAllCurrentData] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const [modifiedKeys, setModifiedKeys] = useState({});
+  const [loading, setLoading] = useState(false);
   const token = JSON.parse(localStorage.getItem("userData"));
   let { fileId } = JSON.parse(localStorage.getItem("fileId")) || "";
   let imageNames = JSON.parse(localStorage.getItem("imageName")) || "";
@@ -31,18 +33,28 @@ const ImageScanner = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
+        // Make a GET request to the backend to get the CSV headers
         const response = await axios.get(
+          // The URL of the backend endpoint
           `http://${REACT_APP_IP}:4000/get/headerdata/${fileId}`,
+          // The headers to send with the request
           {
             headers: {
+              // The token to authenticate the request
               token: token,
             },
           }
         );
+        // Set the state of the CSV headers to the response from the backend
         setCsvHeaders(response.data.headers);
       } catch (error) {
+        // Log any errors to the console
         console.log(error);
+      }
+      finally {
+        setLoading(false)
       }
     };
     fetchData();
@@ -178,6 +190,7 @@ const ImageScanner = () => {
   };
 
   const onFindDuplicatesHandler = async (columnName) => {
+    setLoading(true)
     try {
       const response = await axios.post(
         `http://${REACT_APP_IP}:4000/duplicate/data`,
@@ -223,10 +236,10 @@ const ImageScanner = () => {
       console.log(error);
       toast.warning(error.response?.data?.message);
     }
+    finally {
+      setLoading(false)
+    }
   };
-
-
-  console.log(currentRowData)
 
   const onRemoveDuplicateHandler = async (index, rowIndex, colName) => {
     const currentData = [...allCurrentData];
@@ -289,70 +302,73 @@ const ImageScanner = () => {
   };
 
   return (
-    <div className="flex duplicateImg  bg-gradient-to-r from-blue-400 to-blue-600 border-1 justify-center items-center   ">
-      {showDuplicates ? (
-        <FindDuplicate
-          onDuplicateCheckedHandler={onDuplicateCheckedHandler}
-          csvHeaders={csvHeaders}
-          imageNames={imageNames}
-          onFindDuplicatesHandler={onFindDuplicatesHandler}
-        />
-      ) : (
-        <div className="flex flex-col w-full justify-center items-center lg:items-start lg:flex-row pt-20  ">
-          {/* LEFT SECTION  */}
-          <div className="flex w-full my-2 lg:my-7 lg:w-[30%] xl:w-[25%] ">
-            <div className="text-center sm:block sm:p-0 w-full">
-              {!editModal ? (
-                <DuplicatesData
-                  duplicatesData={duplicatesData}
-                  columnName={columnName}
-                  onShowModalHandler={onShowModalHandler}
-                  showDuplicateField={showDuplicateField}
-                  cancelButtonRef={cancelButtonRef}
-                  setShowDuplicateField={setShowDuplicateField}
-                  allCurrentData={allCurrentData}
-                  onEditModalHandler={onEditModalHandler}
-                  onRemoveDuplicateHandler={onRemoveDuplicateHandler}
-                />
-              ) : (
-                <EditDuplicateData
-                  currentRowData={currentRowData}
-                  imageNames={imageNames}
-                  changeCurrentCsvDataHandler={changeCurrentCsvDataHandler}
-                  setEditModal={setEditModal}
-                  onUpdateCurrentDataHandler={onUpdateCurrentDataHandler}
-                />
-              )}
-            </div>
-          </div>
-
-          {/* RIGHT SECTION  */}
-          {!imageUrl ? (
-            <div className="flex lg:w-[70%] xl:w-[75%] justify-center items-center ">
-              <div className="">
-                <ImageNotFound />
-
-                <h1 className="mt-8 text-2xl font-bold tracking-tight text-gray-700 sm:text-4xl">
-                  Please Select Image...
-                </h1>
-
-                <p className="mt-4 text-gray-600 text-center">
-                  We can't find that page!!
-                </p>
+    <Fragment>
+      {loading ? <Loader /> : <div className="flex duplicateImg  bg-gradient-to-r from-blue-400 to-blue-600 border-1 justify-center items-center">
+        {showDuplicates ? (
+          <FindDuplicate
+            onDuplicateCheckedHandler={onDuplicateCheckedHandler}
+            csvHeaders={csvHeaders}
+            imageNames={imageNames}
+            onFindDuplicatesHandler={onFindDuplicatesHandler}
+            loading={loading}
+          />
+        ) : (
+          <div className="flex flex-col w-full justify-center items-center lg:items-start lg:flex-row pt-20  ">
+            {/* LEFT SECTION  */}
+            <div className="flex w-full my-2 lg:my-7 lg:w-[30%] xl:w-[25%] ">
+              <div className="text-center sm:block sm:p-0 w-full">
+                {!editModal ? (
+                  <DuplicatesData
+                    duplicatesData={duplicatesData}
+                    columnName={columnName}
+                    onShowModalHandler={onShowModalHandler}
+                    showDuplicateField={showDuplicateField}
+                    cancelButtonRef={cancelButtonRef}
+                    setShowDuplicateField={setShowDuplicateField}
+                    allCurrentData={allCurrentData}
+                    onEditModalHandler={onEditModalHandler}
+                    onRemoveDuplicateHandler={onRemoveDuplicateHandler}
+                  />
+                ) : (
+                  <EditDuplicateData
+                    currentRowData={currentRowData}
+                    imageNames={imageNames}
+                    changeCurrentCsvDataHandler={changeCurrentCsvDataHandler}
+                    setEditModal={setEditModal}
+                    onUpdateCurrentDataHandler={onUpdateCurrentDataHandler}
+                  />
+                )}
               </div>
             </div>
-          ) : (
-            <div className="w-[75%]">
-              <DuplicateImage
-                currentImageIndex={currentImageIndex}
-                currentRowData={currentRowData}
-                imageUrl={imageUrl}
-              />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+
+            {/* RIGHT SECTION  */}
+            {!imageUrl ? (
+              <div className="flex lg:w-[70%] xl:w-[75%] justify-center items-center ">
+                <div className="">
+                  <ImageNotFound />
+
+                  <h1 className="mt-8 text-2xl font-bold tracking-tight text-gray-700 sm:text-4xl">
+                    Please Select Image...
+                  </h1>
+
+                  <p className="mt-4 text-gray-600 text-center">
+                    We can't find that page!!
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="w-[75%]">
+                <DuplicateImage
+                  currentImageIndex={currentImageIndex}
+                  currentRowData={currentRowData}
+                  imageUrl={imageUrl}
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>}
+    </Fragment>
   );
 };
 

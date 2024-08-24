@@ -5,6 +5,7 @@ const HeaderMappedReview = ({
   setShowModal,
   showModal,
   selectedAssociations,
+  submitLoading
 }) => {
   return (
     <div className="text-center mt-5 pt-5">
@@ -63,14 +64,22 @@ const HeaderMappedReview = ({
                 <button
                   onClick={() => {
                     onMapSubmitHandler();
-                    setShowModal(false);
                   }}
                   type="button"
-                  className=" my-3 ml-3 w-full sm:w-auto inline-flex justify-center rounded-xl
-         border border-transparent px-4 py-2 bg-teal-600 text-base leading-6 font-semibold text-white shadow-sm hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                  className={`my-3 ml-3 w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-transparent px-4 py-2 bg-teal-600 text-base leading-6 font-semibold text-white shadow-sm hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition ease-in-out duration-150 sm:text-sm sm:leading-5 ${submitLoading ? "cursor-not-allowed" : ""}`}
+                  disabled={submitLoading}
                 >
-                  Submit
+                  {submitLoading ? (
+                    <div className="flex items-center space-x-2">
+                      {/* Tailwind CSS spinner */}
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Loading...</span>
+                    </div>
+                  ) : (
+                    "Submit"
+                  )}
                 </button>
+
                 <button
                   onClick={() => setShowModal(false)}
                   type="button"

@@ -1,44 +1,38 @@
-import React from "react";
+import React from 'react';
 
-const HeaderData = ({
+function HeaderData({
   csvHeaders,
   handleTemplateHeaderChange,
   templateHeaders,
   selectedAssociations,
   handleCsvHeaderChange,
-}) => {
+}) {
   return (
-    <div>
-      <div className="flex w-full justify-around mb-4">
-        <div className="w-1/3 text-center">
-          <label className="block text-xl text-white font-semibold">
-            CSV Header
-          </label>
+    <div className="relative">
+      <div>
+        <div className="flex w-full justify-around mb-4">
+          <div className="w-1/3 text-center">
+            <label className="block text-xl text-white font-semibold">
+              CSV Header
+            </label>
+          </div>
+          <div className="w-1/3 text-center">
+            <label className="block text-xl text-white font-semibold">
+              Template Header
+            </label>
+          </div>
         </div>
-        <div className="w-1/3 text-center">
-          <label className="block text-xl text-white font-semibold">
-            Template Header
-          </label>
-        </div>
-      </div>
-      <div className="h-[50vh] overflow-y-auto">
-        {csvHeaders &&
-          csvHeaders
-            .filter(
-              (csvHeader) =>
-                csvHeader !== "Previous Values" ||
-                csvHeader !== "Updated Values" ||
-                csvHeader !== "User Details" ||
-                csvHeader !== "Updated Col. Name"
-            )
-            .map((csvHeader, index) => {
-              if (
-                csvHeader === "Previous Values" ||
-                csvHeader === "Updated Values" ||
-                csvHeader === "User Details" ||
-                csvHeader === "Updated Col. Name"
-              ) {
-              } else {
+        <div className="h-[50vh] overflow-y-auto">
+          {csvHeaders &&
+            csvHeaders
+              .filter(
+                (csvHeader) =>
+                  csvHeader !== "Previous Values" &&
+                  csvHeader !== "Updated Values" &&
+                  csvHeader !== "User Details" &&
+                  csvHeader !== "Updated Col. Name"
+              )
+              .map((csvHeader, index) => {
                 return (
                   <div key={index} className="flex w-full justify-around mb-3">
                     <select
@@ -82,11 +76,11 @@ const HeaderData = ({
                     </select>
                   </div>
                 );
-              }
-            })}
+              })}
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default HeaderData;

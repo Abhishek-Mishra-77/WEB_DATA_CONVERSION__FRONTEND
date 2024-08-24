@@ -31,10 +31,10 @@ const FindDuplicate = ({
                     <div className="divide-y divide-gray-200 bg-white overflow-y-auto max-h-[300px] w-full">
                       {csvHeaders?.map((columnName, index) =>
                         columnName === "Previous Values" ||
-                        columnName === "Updated Values" ||
-                        columnName === "User Details" ||
-                        columnName === "Updated Col. Name" ||
-                        imageNames?.includes(columnName) ? null : (
+                          columnName === "Updated Values" ||
+                          columnName === "User Details" ||
+                          columnName === "Updated Col. Name" ||
+                          imageNames?.includes(columnName) ? null : (
                           <div
                             key={index}
                             className="flex justify-between items-center"

@@ -2,9 +2,9 @@ import BeatLoader from "react-spinners/BeatLoader";
 
 function Loader() {
   return (
-    <div className="sweet-loading flex justify-center items-center w-full h-[100vh] bg-gradient-to-r from-[rgb(240,160,22)] to-teal-200">
+    <div className="sweet-loading flex justify-center items-center w-full h-[100vh] bg-gradient-to-r from-blue-400 to-blue-600">
       <BeatLoader
-        color="teal"
+        color="white"
         loading={true}
         size={60}
         aria-label="Loading Spinner"

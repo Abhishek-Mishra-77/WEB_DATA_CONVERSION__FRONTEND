@@ -11,6 +11,8 @@ const TemplateMapping = () => {
   const [templateHeaders, setTemplateHeaders] = useState();
   const [selectedAssociations, setSelectedAssociations] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false)
 
   const { id } = useParams();
 
@@ -54,6 +56,7 @@ const TemplateMapping = () => {
       } catch (error) {
         console.log(error);
       }
+
     };
     fetchData();
   }, [fileId, token]);
@@ -111,7 +114,7 @@ const TemplateMapping = () => {
         return;
       }
     }
-
+    setSubmitLoading(true)
     const associationData = [];
     const obj = { ...selectedAssociations };
     for (let i = 0; i < csvHeaders.length; i++) {
@@ -144,11 +147,14 @@ const TemplateMapping = () => {
     } catch (error) {
       toast.error(error.message);
     }
+    finally {
+      setSubmitLoading(false)
+    }
   };
 
   return (
-    <div className="min-h-[100vh] overflow-y overflow-x-auto flex justify-center bg-gradient-to-r from-blue-400 to-blue-600 items-center templatemapping pt-20 pb-12">
-      <div className="w-[900px] bg-white p-6 rounded-lg shadow-md">
+    <div className="min-h-[100vh] overflow-y-auto overflow-x-auto flex justify-center bg-gradient-to-r from-blue-400 to-blue-600 items-center templatemapping pt-20 pb-12">
+      <div className="w-[900px] bg-white p-6 rounded-lg shadow-md relative">
         <h1 className="text-blue-800 text-4xl text-center mb-10">Mapping</h1>
         <HeaderData
           csvHeaders={csvHeaders}
@@ -157,17 +163,15 @@ const TemplateMapping = () => {
           selectedAssociations={selectedAssociations}
           handleCsvHeaderChange={handleCsvHeaderChange}
         />
-
         <HeaderMappedReview
           onMapSubmitHandler={onMapSubmitHandler}
           setShowModal={setShowModal}
           showModal={showModal}
           selectedAssociations={selectedAssociations}
+          submitLoading={submitLoading}
         />
       </div>
-    </div>
-
-
+    </div >
   );
 };
 export default TemplateMapping;
