@@ -179,6 +179,12 @@ const DataMatching = () => {
           toast.warning(`The ${csvHeaderKey} is empty.`);
           return;
         }
+
+        if (keyValue.length !== fieldLength) {
+          toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
+          return;
+        }
+
         const isValidText = /^[A-Za-z\s]+$/.test(keyValue);
         if (!isValidText) {
           toast.warning(`The ${csvHeaderKey} should be text.`);
@@ -189,6 +195,12 @@ const DataMatching = () => {
           toast.warning(`The ${csvHeaderKey} is empty.`);
           return;
         }
+
+        if (keyValue.length !== fieldLength) {
+          toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
+          return;
+        }
+
         const isValidAlphanumeric = /^[a-zA-Z0-9\s]+$/.test(keyValue);
         if (!isValidAlphanumeric) {
           toast.warning(`Alphanumeric value ${keyValue} is not valid.`);
