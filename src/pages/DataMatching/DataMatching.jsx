@@ -585,7 +585,7 @@ const DataMatching = () => {
         } else if (dataFieldType === "alphanumeric") {
           if (
             newValue.length > maxLength ||
-            !/^[a-zA-Z0-9\s]+$/.test(newValue)
+            (newValue.length > 0 && !/^[a-zA-Z0-9\s]*$/.test(newValue))
           ) {
             toast.error("Invalid alphanumeric format.");
             return prevData;
