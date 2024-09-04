@@ -90,11 +90,10 @@ const UserTaskAssined = ({
                             <div className="whitespace-nowrap w-[150px] px-4">
                               <div className="text-md text-center">
                                 <span
-                                  className={`inline-flex items-center justify-center rounded-full ${
-                                    !taskData.taskStatus
+                                  className={`inline-flex items-center justify-center rounded-full ${!taskData.taskStatus
                                       ? "bg-amber-100 text-amber-700"
                                       : "bg-emerald-100 text-emerald-700"
-                                  } px-2.5 py-0.5 `}
+                                    } px-2.5 py-0.5 `}
                                 >
                                   {!taskData.taskStatus ? (
                                     <svg
@@ -143,11 +142,12 @@ const UserTaskAssined = ({
                                 onClick={() => handleStartClick(taskData)}
                                 type="button"
                                 disabled={loadingTaskId === taskData.id}
-                                className={`rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white ${
-                                  loadingTaskId === taskData.id
+                                className={`relative rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white ${loadingTaskId === taskData.id
                                     ? "opacity-50 cursor-not-allowed"
-                                    : ""
-                                }`}
+                                    : taskData.taskStatus
+                                      ? "before:content-[''] before:absolute before:inset-0 before:bg-white before:opacity-20 before:blur-sm"
+                                      : ""
+                                  }`}
                               >
                                 {loadingTaskId === taskData.id ? (
                                   <div className="flex items-center justify-center">
@@ -158,6 +158,7 @@ const UserTaskAssined = ({
                                   "Start"
                                 )}
                               </button>
+
                             </div>
                           </div>
                         </>
@@ -192,11 +193,10 @@ const UserTaskAssined = ({
                           <div className="whitespace-nowrap w-1/6">
                             <div className="text-md text-center">
                               <span
-                                className={`inline-flex items-center justify-center rounded-full ${
-                                  !taskData.taskStatus
+                                className={`inline-flex items-center justify-center rounded-full ${!taskData.taskStatus
                                     ? "bg-amber-100 text-amber-700"
                                     : "bg-emerald-100 text-emerald-700"
-                                } px-2.5 py-0.5 `}
+                                  } px-2.5 py-0.5 `}
                               >
                                 {!taskData.taskStatus ? (
                                   <svg

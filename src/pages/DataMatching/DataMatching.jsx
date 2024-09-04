@@ -180,7 +180,7 @@ const DataMatching = () => {
           return;
         }
 
-        if (keyValue.length > fieldLength) {
+        if (keyValue.length !== fieldLength) {
           toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
           return;
         }
@@ -196,7 +196,7 @@ const DataMatching = () => {
           return;
         }
 
-        if (keyValue.length > fieldLength) {
+        if (keyValue.length !== fieldLength) {
           toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
           return;
         }
@@ -438,10 +438,6 @@ const DataMatching = () => {
           },
         }
       );
-
-      // const url = response.data?.base64Image;
-      // const pathParts = imageName1?.split("/");
-      // setCurrImageName(pathParts[pathParts.length - 1]);
       setCurrentTaskData((prevData) => {
         if (direction === "next") {
           return {
@@ -542,6 +538,7 @@ const DataMatching = () => {
 
         if (dataFieldType === "number") {
           if (!/^\d*$/.test(trimmedValue)) {
+            console.log("Here")
             toast.error("Invalid number format.");
             return prevData;
           } else if (trimmedValue.length > maxLength) {
