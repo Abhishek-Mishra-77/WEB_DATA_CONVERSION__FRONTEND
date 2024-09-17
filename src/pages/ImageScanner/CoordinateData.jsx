@@ -19,8 +19,8 @@ const CoordinateData = ({
   return (
     <>
       {open && (
-        <Draggable handle=".modal-header" cancel=".modal-body">
-          <div className={`fixed inset-0 z-50  mt-40`}>
+        <Draggable handle=".modal-header" cancel="input, select, textarea">
+          <div className={`fixed inset-0 z-50 mt-40`}>
             <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
               <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div className="modal-header bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 cursor-move">
@@ -132,9 +132,7 @@ const CoordinateData = ({
                                 />
                               </div>
                               <div className="flex items-center gap-4">
-                                <span className="font-bold text-gray-700">
-                                  End
-                                </span>
+                                <span className="font-bold text-gray-700">End</span>
                                 <input
                                   type="number"
                                   id="Quantity"
@@ -245,6 +243,7 @@ const CoordinateData = ({
         </Draggable>
       )}
     </>
+
   );
 };
 

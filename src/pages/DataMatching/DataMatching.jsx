@@ -37,7 +37,7 @@ const DataMatching = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [compareTask, setCompareTask] = useState([]);
   const [csvData, setCsvData] = useState([]);
-  const [confirmationModal, setConfirmationModal] = useState();
+  const [confirmationModal, setConfirmationModal] = useState(false);
   const [userRole, setUserRole] = useState();
   const imageContainerRef = useRef(null);
   const imageRef = useRef(null);
@@ -709,6 +709,7 @@ const DataMatching = () => {
       onImageHandler("initial", matchingIndex, response.data, taskData);
       setPopUp(false);
     } catch (error) {
+      setConfirmationModal(true)
       toast.error(error?.response?.data?.error);
     }
   };
@@ -733,7 +734,13 @@ const DataMatching = () => {
           },
         }
       );
-
+      const updatedTasks = allTasks?.map((task) => {
+        if (task?.id === currentTaskData?.id) {
+          return { ...task, taskStatus: true };
+        }
+        return task;
+      })
+      setAllTasks(updatedTasks)
       setPopUp(true);
       setConfirmationModal(false);
       toast.success("task complted successfully.");
@@ -902,22 +909,23 @@ const DataMatching = () => {
                   )}
                 </div>
 
-                {/* CONFIRMATION MODAL */}
-                <ConfirmationModal
-                  confirmationModal={confirmationModal}
-                  onSubmitHandler={onCompleteHandler}
-                  setConfirmationModal={setConfirmationModal}
-                  heading={"Confirm Task Completion"}
-                  message={
-                    "Please confirm if you would like to mark this task as complete."
-                  }
-                />
               </div>
             )}
           </div>
         </div>
       )}
       {userRole === "Admin" && <AdminAssined />}
+
+      {/* CONFIRMATION MODAL */}
+      <ConfirmationModal
+        confirmationModal={confirmationModal}
+        onSubmitHandler={onCompleteHandler}
+        setConfirmationModal={setConfirmationModal}
+        heading={"Confirm Task Completion"}
+        message={
+          "Please confirm if you would like to mark this task as complete."
+        }
+      />
     </>
   );
 };
