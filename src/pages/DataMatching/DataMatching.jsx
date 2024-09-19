@@ -44,7 +44,19 @@ const DataMatching = () => {
   const token = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
   const inputRefs = useRef([]);
+  const [errorKey, setErrorKey] = useState(null);
+  const [focusedIndex, setFocusedIndex] = useState(null);
   const [os, setOs] = useState('Unknown OS');
+
+  useEffect(() => {
+    if (errorKey && inputRefs.current) {
+      const index = Object.keys(csvCurrentData).indexOf(errorKey);
+      if (index !== -1 && inputRefs.current[index]) {
+        inputRefs.current[index].focus();
+      }
+    }
+  }, [errorKey, csvCurrentData, inputRefs]);
+
 
 
   useEffect(() => {
@@ -155,54 +167,64 @@ const DataMatching = () => {
         const blankDefinition = templateHeaders?.blankDefination === "space" ? " " : templateHeaders?.blankDefination;
 
         if (keyValue.includes(templateHeaders?.patternDefinition)) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`The value for ${csvHeaderKey} includes the pattern definition ${"    " + templateHeaders?.patternDefinition}.`);
           return;
         }
 
         if (keyValue.includes(blankDefinition)) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`The value for ${csvHeaderKey} should not include the specified blank definition.`);
           return;
         }
 
         const keyValueNumber = Number(keyValue);
         if (keyValue.length !== fieldLength) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
           return;
         }
 
         if (keyValueNumber < min || keyValueNumber > max) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`Number ${csvHeaderKey} is out of range. It should be between ${min} and ${max}.`);
           return;
         }
       } else if (dataFieldType === "text") {
         if (keyValue.trim().length === 0) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`The ${csvHeaderKey} is empty.`);
           return;
         }
 
         if (keyValue.length !== fieldLength) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
           return;
         }
 
         const isValidText = /^[A-Za-z\s]+$/.test(keyValue);
         if (!isValidText) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`The ${csvHeaderKey} should be text.`);
           return;
         }
       } else if (dataFieldType === "alphanumeric") {
         if (keyValue === " " || keyValue.length === 0) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`The ${csvHeaderKey} is empty.`);
           return;
         }
 
         if (keyValue.length !== fieldLength) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
           return;
         }
 
         const isValidAlphanumeric = /^[a-zA-Z0-9\s]+$/.test(keyValue);
         if (!isValidAlphanumeric) {
+          setErrorKey(csvHeaderKey);
           toast.warning(`Alphanumeric value ${keyValue} is not valid.`);
           return;
         }
@@ -538,7 +560,6 @@ const DataMatching = () => {
 
         if (dataFieldType === "number") {
           if (!/^\d*$/.test(trimmedValue)) {
-            console.log("Here")
             toast.error("Invalid number format.");
             return prevData;
           } else if (trimmedValue.length > maxLength) {
@@ -798,6 +819,8 @@ const DataMatching = () => {
                   handleKeyDownJump={handleKeyDownJump}
                   changeCurrentCsvDataHandler={changeCurrentCsvDataHandler}
                   imageFocusHandler={imageFocusHandler}
+                  focusedIndex={focusedIndex}
+                  setFocusedIndex={setFocusedIndex}
                 />
 
                 {/* RIGHT SECTION */}

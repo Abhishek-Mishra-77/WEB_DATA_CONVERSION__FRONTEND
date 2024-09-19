@@ -5,11 +5,12 @@ const FormDataSection = ({
   csvData,
   templateHeaders,
   imageColName,
-  currentFocusIndex,
   inputRefs,
   handleKeyDownJump,
   changeCurrentCsvDataHandler,
   imageFocusHandler,
+  focusedIndex,
+  setFocusedIndex
 }) => {
   const blankDefinition = templateHeaders?.blankDefination === "space" ? " " : templateHeaders?.blankDefination;
 
@@ -48,12 +49,16 @@ const FormDataSection = ({
                       type="text"
                       className={`mt-1 border-none p-2 focus:border-transparent text-center rounded-lg focus:outline-none focus:ring-0 sm:text-sm w-48
                         ${isEmptyOrBlank ? "bg-red-500 text-black" : "bg-white"}
-                        ${i === currentFocusIndex ? "bg-yellow-300 text-black" : ""}`}
+                      ${i === focusedIndex ? "bg-yellow-300 text-black" : ""}`}
                       ref={(el) => (inputRefs.current[i] = el)}
                       value={csvCurrentData[key]}
                       onKeyDown={(e) => handleKeyDownJump(e, i)}
                       onChange={(e) => changeCurrentCsvDataHandler(key, e.target.value)}
-                      onFocus={() => imageFocusHandler(key)}
+                      onFocus={() => {
+                        imageFocusHandler(key)
+                        setFocusedIndex(i)
+                      }}
+                      onBlur={() => setFocusedIndex(null)}
                     />
                   </div>
                 );
