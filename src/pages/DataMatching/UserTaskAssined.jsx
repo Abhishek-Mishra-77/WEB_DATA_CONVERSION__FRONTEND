@@ -9,6 +9,7 @@ const UserTaskAssined = ({
   setCurrentTaskData,
 }) => {
   const [loadingTaskId, setLoadingTaskId] = useState(null);
+  const [taskType, setTaskType] = useState("ALL")
 
   const handleStartClick = (taskData) => {
     if (taskData?.taskStatus) {
@@ -22,6 +23,15 @@ const UserTaskAssined = ({
     setTimeout(() => setLoadingTaskId(null), 3000);
   };
 
+  const filteredTasks = taskType === "ALL"
+    ? allTasks
+    : taskType === "pending"
+      ? allTasks?.filter(task => task?.taskStatus === false)
+      : taskType === "completed"
+        ? allTasks?.filter(task => task?.taskStatus === true)
+        : allTasks;
+
+
   return (
     <div className="h-[100vh] flex justify-center bg-gradient-to-r from-blue-400 to-blue-600 items-center templatemapping">
       <div className="">
@@ -31,6 +41,31 @@ const UserTaskAssined = ({
             <div>
               <h2 className="text-3xl font-semibold">Assigned Tasks</h2>
             </div>
+          </div>
+          <div className="hidden sm:block mt-4">
+            <nav className="flex gap-6" aria-label="Tabs">
+              <button
+                onClick={() => setTaskType("All")}
+                className={`shrink-0 rounded-lg p-2 text-sm border-2  font-medium ${taskType === "All" && "bg-sky-100 text-sky-600"} hover:bg-sky-100 hover:text-gray-700`}
+              >
+                ALL TASKS
+              </button>
+
+              <button
+                onClick={() => setTaskType("completed")}
+                className={`shrink-0 rounded-lg p-2 text-sm border-2  font-medium ${taskType === "completed" && "bg-sky-100 text-sky-600"} hover:bg-sky-100 hover:text-gray-700`}
+              >
+                COMPLETED
+              </button>
+
+              <button
+                onClick={() => setTaskType("pending")}
+                className={`shrink-0 border-2  rounded-lg ${taskType === "pending" && "bg-sky-100 text-sky-600"} p-2 text-sm font-medium hover:bg-sky-100`}
+                aria-current="page"
+              >
+                PENDING
+              </button>
+            </nav>
           </div>
           <div className="mt-6 flex flex-col">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -62,7 +97,7 @@ const UserTaskAssined = ({
                       </div>
                     </div>
                     <div className="divide-y divide-gray-200 bg-white overflow-y-auto max-h-[300px]">
-                      {allTasks?.map((taskData) => (
+                      {filteredTasks?.map((taskData) => (
                         <>
                           <div key={taskData.id} className="flex  py-2 w-full">
                             <div className="whitespace-nowrap w-[150px] px-4">
@@ -91,8 +126,8 @@ const UserTaskAssined = ({
                               <div className="text-md text-center">
                                 <span
                                   className={`inline-flex items-center justify-center rounded-full ${!taskData.taskStatus
-                                      ? "bg-amber-100 text-amber-700"
-                                      : "bg-emerald-100 text-emerald-700"
+                                    ? "bg-amber-100 text-amber-700"
+                                    : "bg-emerald-100 text-emerald-700"
                                     } px-2.5 py-0.5 `}
                                 >
                                   {!taskData.taskStatus ? (
@@ -143,10 +178,10 @@ const UserTaskAssined = ({
                                 type="button"
                                 disabled={loadingTaskId === taskData.id}
                                 className={`relative rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white ${loadingTaskId === taskData.id
-                                    ? "opacity-50 cursor-not-allowed"
-                                    : taskData.taskStatus
-                                      ? "before:content-[''] before:absolute before:inset-0 before:bg-white before:opacity-20 before:blur-sm"
-                                      : ""
+                                  ? "opacity-50 cursor-not-allowed"
+                                  : taskData.taskStatus
+                                    ? "before:content-[''] before:absolute before:inset-0 before:bg-white before:opacity-20 before:blur-sm"
+                                    : ""
                                   }`}
                               >
                                 {loadingTaskId === taskData.id ? (
@@ -194,8 +229,8 @@ const UserTaskAssined = ({
                             <div className="text-md text-center">
                               <span
                                 className={`inline-flex items-center justify-center rounded-full ${!taskData.taskStatus
-                                    ? "bg-amber-100 text-amber-700"
-                                    : "bg-emerald-100 text-emerald-700"
+                                  ? "bg-amber-100 text-amber-700"
+                                  : "bg-emerald-100 text-emerald-700"
                                   } px-2.5 py-0.5 `}
                               >
                                 {!taskData.taskStatus ? (

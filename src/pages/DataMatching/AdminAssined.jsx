@@ -18,6 +18,7 @@ const AdminAssined = () => {
   const [taskEdit, setTaskEdit] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
   const [taskEditId, setTaskEditId] = useState("");
+  const [taskType, setTaskType] = useState("ALL")
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -308,10 +309,36 @@ const AdminAssined = () => {
         {/* MAIN SECTION  */}
         <section className=" lg:mx-auto max-w-6xl px-8 py-10 bg-white rounded-xl w-[100vw]">
           <div>
-            <div>
-              <h2 className="text-3xl font-semibold">Assigned Tasks</h2>
+            <h2 className="text-3xl font-semibold">Assigned Tasks</h2>
+          </div>
+          <div>
+            <div className="hidden sm:block mt-4">
+              <nav className="flex gap-6" aria-label="Tabs">
+                <button
+                  onClick={() => setTaskType("All")}
+                  className={`shrink-0 rounded-lg p-2 text-sm border-2 font-medium ${taskType === "All" && "bg-sky-100 text-sky-600"} hover:bg-sky-100 hover:text-gray-700`}
+                >
+                  ALL TASKS
+                </button>
+
+                <button
+                  onClick={() => setTaskType("completed")}
+                  className={`shrink-0 rounded-lg p-2 text-sm border-2  font-medium ${taskType === "completed" && "bg-sky-100 text-sky-600"} hover:bg-sky-100 hover:text-gray-700`}
+                >
+                  COMPLETED
+                </button>
+
+                <button
+                  onClick={() => setTaskType("pending")}
+                  className={`shrink-0 rounded-lg border-2  ${taskType === "pending" && "bg-sky-100 text-sky-600"} p-2 text-sm font-medium hover:bg-sky-100`}
+                  aria-current="page"
+                >
+                  PENDING
+                </button>
+              </nav>
             </div>
           </div>
+
           <div className="mt-6 flex flex-col">
             <div className="-mx-4 -my-2 overflow-x-auto  sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -359,6 +386,7 @@ const AdminAssined = () => {
                         matchingTask={matchingTask}
                         onDownloadHandler={onDownloadHandler}
                         setTaskEditId={setTaskEditId}
+                        taskType={taskType}
                       />
                     </div>
                   </div>
