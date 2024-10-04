@@ -55,6 +55,7 @@ const DataMatching = () => {
         inputRefs.current[index].focus();
       }
     }
+    setErrorKey(null)
   }, [errorKey, csvCurrentData, inputRefs]);
 
 
@@ -197,7 +198,7 @@ const DataMatching = () => {
           return;
         }
 
-        if (keyValue.length !== fieldLength) {
+        if (keyValue.length > fieldLength) {
           setErrorKey(csvHeaderKey);
           toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
           return;
@@ -216,7 +217,7 @@ const DataMatching = () => {
           return;
         }
 
-        if (keyValue.length !== fieldLength) {
+        if (keyValue.length > fieldLength) {
           setErrorKey(csvHeaderKey);
           toast.warning(`The length of ${csvHeaderKey} should be ${fieldLength}.`);
           return;
