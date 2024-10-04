@@ -6,7 +6,6 @@ import {
   onGetAllUsersHandler,
   onGetVerifiedUserHandler,
 } from "../../services/common";
-import { REACT_APP_IP } from "../../services/common";
 import axios from "axios";
 import classes from "./Assignee.module.css";
 const Assignee = () => {
@@ -127,7 +126,7 @@ const Assignee = () => {
   const onTaskSubmitHandler = async () => {
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/assign`,
+        `${process.env.REACT_APP_SERVER_IP}/assign`,
         { assignedUsers: assignedUsers, templateName: templateName },
         {
           headers: {

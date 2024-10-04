@@ -1,14 +1,15 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const SERVER_IP = "http://192.168.1.60:4000";
-export const REACT_APP_IP = "192.168.1.60";
+// export const SERVER_IP = "http://192.168.1.60:4000";
+// export const REACT_APP_IP = "192.168.1.60";
+
 
 export const onGetTemplateHandler = async () => {
   const token = JSON.parse(localStorage.getItem("userData"));
   try {
     const response = await axios.post(
-      `http://${REACT_APP_IP}:4000/get/templetes`,
+      `${process.env.REACT_APP_SERVER_IP}/get/templetes`,
       {},
       {
         headers: {
@@ -27,7 +28,7 @@ export const onGetAllUsersHandler = async () => {
 
   try {
     const response = await axios.post(
-      `http://${REACT_APP_IP}:4000/users/getallusers`,
+      `${process.env.REACT_APP_SERVER_IP}/users/getallusers`,
       {},
       {
         headers: {
@@ -48,7 +49,7 @@ export const onGetVerifiedUserHandler = async () => {
   }
   try {
     const response = await axios.post(
-      `http://${REACT_APP_IP}:4000/users/getuser`,
+      `${process.env.REACT_APP_SERVER_IP}/users/getuser`,
       {},
       {
         headers: {
@@ -66,7 +67,7 @@ export const onGetAllTasksHandler = async () => {
 
   try {
     const response = await axios.get(
-      `http://${REACT_APP_IP}:4000/get/alltasks`,
+      `${process.env.REACT_APP_SERVER_IP}/get/alltasks`,
       {
         headers: {
           token: token,
@@ -83,7 +84,7 @@ export const onGetTaskHandler = async (id) => {
   const token = JSON.parse(localStorage.getItem("userData"));
   try {
     const response = await axios.get(
-      `http://${REACT_APP_IP}:4000/get/task/${id}`,
+      `${process.env.REACT_APP_SERVER_IP}/get/task/${id}`,
       {
         headers: {
           token: token,

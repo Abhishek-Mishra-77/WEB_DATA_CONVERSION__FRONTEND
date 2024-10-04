@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import axios from "axios";
 import { useContext } from "react";
 import dataContext from "../Store/DataContext";
 import Papa from "papaparse";
-import extractImagesFromZip from "../services/imageextractor";
 const Input = (props) => {
   const datactx = useContext(dataContext);
   const fileHandler = (event) => {

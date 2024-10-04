@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { onGetTemplateHandler, REACT_APP_IP } from "../../services/common";
+import { onGetTemplateHandler } from "../../services/common";
 import HeaderData from "./HeaderData";
 import HeaderMappedReview from "./HeaderMappedReview";
 
@@ -11,7 +11,6 @@ const TemplateMapping = () => {
   const [templateHeaders, setTemplateHeaders] = useState();
   const [selectedAssociations, setSelectedAssociations] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false)
 
   const { id } = useParams();
@@ -41,7 +40,7 @@ const TemplateMapping = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://${REACT_APP_IP}:4000/get/headerdata/${fileId}`,
+          `${process.env.REACT_APP_SERVER_IP}/get/headerdata/${fileId}`,
           {
             headers: {
               token: token,
@@ -134,7 +133,7 @@ const TemplateMapping = () => {
 
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/data`,
+        `${process.env.REACT_APP_SERVER_IP}/data`,
         { mappedData },
         {
           headers: {

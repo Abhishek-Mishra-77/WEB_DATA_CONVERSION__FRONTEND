@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { REACT_APP_IP } from "../../services/common";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const CreateUser = () => {
@@ -117,7 +116,7 @@ const CreateUser = () => {
     }
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/users/createuser`,
+        `${process.env.REACT_APP_SERVER_IP}/users/createuser`,
         { userData: userData },
         {
           headers: {

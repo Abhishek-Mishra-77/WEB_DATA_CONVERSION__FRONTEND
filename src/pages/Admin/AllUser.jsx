@@ -11,7 +11,7 @@ import { BiEdit } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { REACT_APP_IP, onGetVerifiedUserHandler } from "../../services/common";
+import { onGetVerifiedUserHandler } from "../../services/common";
 import { onGetAllUsersHandler } from "../../services/common";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 export function AllUser() {
@@ -82,7 +82,7 @@ export function AllUser() {
     e.preventDefault();
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/users/updateuser/${selectedUser.id}`,
+        `${process.env.REACT_APP_SERVER_IP}/users/updateuser/${selectedUser.id}`,
         { selectedUser },
         {
           headers: {
@@ -135,7 +135,7 @@ export function AllUser() {
         return;
       }
       await axios.post(
-        `http://${REACT_APP_IP}:4000/users/deleteuser/${+removeUserId}`,
+        `${process.env.REACT_APP_SERVER_IP}/users/deleteuser/${+removeUserId}`,
         {},
         {
           headers: {

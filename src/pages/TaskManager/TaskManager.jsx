@@ -6,7 +6,7 @@ import {
   onGetAllUsersHandler,
   onGetVerifiedUserHandler,
 } from "../../services/common";
-import { REACT_APP_IP } from "../../services/common";
+
 import axios from "axios";
 import AssigningTask from "./AssigningTask";
 import AssignedTaskReview from "./AssignedTaskReview";
@@ -111,7 +111,7 @@ const TemplateMapping = () => {
 
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/assign/user`,
+        `${process.env.REACT_APP_SERVER_IP}/assign/user`,
         assignedUsers,
         {
           headers: {

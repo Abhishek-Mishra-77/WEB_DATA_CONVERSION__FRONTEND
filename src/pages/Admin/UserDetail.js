@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { REACT_APP_IP } from "../../services/common";
 import { useParams, Link } from "react-router-dom";
 
 function UserDetail() {
@@ -16,7 +15,7 @@ function UserDetail() {
     const fetchUserDetails = async () => {
       try {
         const response = await axios.get(
-          `http://${REACT_APP_IP}:4000/user/details/${id}`,
+          `${process.env.REACT_APP_SERVER_IP}/user/details/${id}`,
           {
             headers: {
               token: token,

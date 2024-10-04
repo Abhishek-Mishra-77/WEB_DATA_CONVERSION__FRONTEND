@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import Draggable from 'react-draggable';
 import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
-import { REACT_APP_IP } from '../../../services/common';
+
 
 const Modal = ({
     setOpenImage,
@@ -67,7 +67,7 @@ const Modal = ({
                     <div className="relative overflow-auto" style={{ maxHeight: '60vh', maxWidth: '100%' }}>
                         {updatedImages.length > 0 && (
                             <img
-                                src={`http://${REACT_APP_IP}:4000/images/${updatedImages[currentImageIndex]}`}
+                                src={`${process.env.REACT_APP_SERVER_IP}/images/${updatedImages[currentImageIndex]}`}
                                 alt="Modal Content"
                                 className="w-full h-auto"
                                 style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}

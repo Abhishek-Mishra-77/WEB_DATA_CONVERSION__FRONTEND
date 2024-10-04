@@ -1,18 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import dataContext from "../../Store/DataContext";
+import React, { useEffect, useState } from "react";
 import classes from "./Correction.module.css";
 import { Button, Tooltip } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Table from "../../UI/Table";
-import { useNavigate } from "react-router";
-import DownloadIcon from "@mui/icons-material/Download";
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import { REACT_APP_IP } from "../../services/common";
 import axios from "axios";
+
 const Correction = () => {
   const [currIndex, setCurrIndex] = useState(1);
   const [tableData, setTableData] = useState({});
@@ -27,14 +24,13 @@ const Correction = () => {
   const state = 1;
   const token = JSON.parse(localStorage.getItem("userData"));
 
-  const navigate = useNavigate();
-  const taskdata = location.state;
+
   const { imageURL, data } = tableData;
 
   useEffect(() => {
     const req = async () => {
       const response = await axios.get(
-        `http://${REACT_APP_IP}:4000/compareAssigned/${taskId}`,
+        `${process.env.REACT_APP_SERVER_IP}/compareAssigned/${taskId}`,
         {
           headers: {
             token: token,
@@ -50,7 +46,7 @@ const Correction = () => {
   useEffect(() => {
     const req = async () => {
       const response = await axios.get(
-        `http://${REACT_APP_IP}:4000/compareAssigned/${taskId}`,
+        `${process.env.REACT_APP_SERVER_IP}/compareAssigned/${taskId}`,
         {
           headers: {
             token: token,
@@ -162,7 +158,7 @@ const Correction = () => {
   const submitHandler = () => {
     const req = async () => {
       const response = await axios.get(
-        `http://${REACT_APP_IP}:4000/submitTask/${taskId}`,
+        `${process.env.REACT_APP_SERVER_IP}/submitTask/${taskId}`,
         {
           headers: {
             token: token,

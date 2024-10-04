@@ -1,5 +1,4 @@
 import React from "react";
-import { REACT_APP_IP } from "../../services/common";
 
 const DuplicateImage = ({ currentImageIndex, currentRowData, imageUrl }) => {
 
@@ -20,7 +19,7 @@ const DuplicateImage = ({ currentImageIndex, currentRowData, imageUrl }) => {
             >
               <img
                 // src={`data:image/jpeg;base64,${imageUrl}`}
-                src={`http://${REACT_APP_IP}:4000/images/${imageUrl}`}
+                src={`${process.env.REACT_APP_SERVER_IP}/images/${imageUrl}`}
                 alt="Selected"
                 style={{
                   width: "48rem",

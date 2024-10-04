@@ -1,4 +1,4 @@
-import { REACT_APP_IP } from "../../services/common";
+
 
 const ImageSection = ({
   imageContainerRef,
@@ -27,7 +27,7 @@ const ImageSection = ({
     >
       {imageUrl ? (
         <img
-          src={`http://${REACT_APP_IP}:4000/images/${imageUrl}`}
+          src={`${process.env.REACT_APP_SERVER_IP}/images/${imageUrl}`}
           alt="Selected"
           ref={imageRef}
           style={{

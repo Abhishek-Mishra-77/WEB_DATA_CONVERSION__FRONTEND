@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  REACT_APP_IP,
   onGetAllTasksHandler,
   onGetTemplateHandler,
   onGetAllUsersHandler,
@@ -25,7 +24,7 @@ const AdminAssined = () => {
       try {
         const token = JSON.parse(localStorage.getItem("userData"));
         const response = await axios.get(
-          `http://${REACT_APP_IP}:4000/assignedTasks`,
+          `${process.env.REACT_APP_SERVER_IP}/assignedTasks`,
           {
             headers: {
               token: token,
@@ -140,7 +139,7 @@ const AdminAssined = () => {
       try {
         const token = JSON.parse(localStorage.getItem("userData"));
         const response = await axios.get(
-          `http://${REACT_APP_IP}:4000/download_error_file/${taskData.id}`,
+          `${process.env.REACT_APP_SERVER_IP}/download_error_file/${taskData.id}`,
           {
             headers: {
               token: token,
@@ -198,7 +197,7 @@ const AdminAssined = () => {
 
     try {
       const response = await fetch(
-        `http://${REACT_APP_IP}:4000/download/csv/${currentTaskData.fileId}`,
+        `${process.env.REACT_APP_SERVER_IP}/download/csv/${currentTaskData.fileId}`,
         {
           method: "GET",
           headers: {
@@ -243,7 +242,7 @@ const AdminAssined = () => {
   const onCompleteHandler = async (currentTask) => {
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/taskupdation/${parseInt(currentTask.id)}`,
+        `${process.env.REACT_APP_SERVER_IP}/taskupdation/${parseInt(currentTask.id)}`,
         { taskStatus: false },
         {
           headers: {
@@ -274,7 +273,7 @@ const AdminAssined = () => {
     try {
       const token = JSON.parse(localStorage.getItem("userData"));
       await axios.post(
-        `http://${REACT_APP_IP}:4000/edit/assigned/task`,
+        `${process.env.REACT_APP_SERVER_IP}/edit/assigned/task`,
         { assignedTaskId: taskEditId, userId: user.id },
         {
           headers: {

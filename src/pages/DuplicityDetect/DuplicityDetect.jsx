@@ -4,12 +4,14 @@ import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { REACT_APP_IP } from "../../services/common";
+
+
 import FindDuplicate from "./FindDuplicate";
 import DuplicatesData from "./DuplicateData";
 import EditDuplicateData from "./EditDuplicateData";
 import DuplicateImage from "./DuplicateImage";
 import Loader from "../../components/Loader/Loader";
+
 
 const ImageScanner = () => {
   const [csvHeaders, setCsvHeaders] = useState([]);
@@ -38,7 +40,7 @@ const ImageScanner = () => {
         // Make a GET request to the backend to get the CSV headers
         const response = await axios.get(
           // The URL of the backend endpoint
-          `http://${REACT_APP_IP}:4000/get/headerdata/${fileId}`,
+          `${process.env.REACT_APP_SERVER_IP}/get/headerdata/${fileId}`,
           // The headers to send with the request
           {
             headers: {
@@ -68,7 +70,7 @@ const ImageScanner = () => {
 
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/update/duplicatedata`,
+        `${process.env.REACT_APP_SERVER_IP}/update/duplicatedata`,
         {
           index: currentRowData?.index,
           fileID: fileId,
@@ -193,7 +195,7 @@ const ImageScanner = () => {
     setLoading(true)
     try {
       const response = await axios.post(
-        `http://${REACT_APP_IP}:4000/duplicate/data`,
+        `${process.env.REACT_APP_SERVER_IP}/duplicate/data`,
         {
           colName: columnName,
           fileID: fileId,
@@ -265,7 +267,7 @@ const ImageScanner = () => {
 
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/delete/duplicate`,
+        `${process.env.REACT_APP_SERVER_IP}/delete/duplicate`,
         { index: parseInt(rowIndex), fileID: fileId },
         {
           headers: {

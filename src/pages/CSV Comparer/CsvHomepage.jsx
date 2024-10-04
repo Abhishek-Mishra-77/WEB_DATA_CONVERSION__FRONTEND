@@ -1,6 +1,5 @@
 import Customselect from "../../UI/Customselect";
 import Input from "../../UI/Input";
-import { Fab, CircularProgress } from "@mui/material";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import OptimisedList from "../../UI/OptimisedList";
 import Button from "@mui/material/Button";
@@ -9,7 +8,6 @@ import dataContext from "../../Store/DataContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import classes from "./CSVHompage.module.css";
-import { REACT_APP_IP } from "../../services/common";
 import LoadingButton from "@mui/lab/LoadingButton";
 import ModalWithLoadingBar from "../../UI/Modal";
 import MultList from "../../UI/MultList";
@@ -89,7 +87,7 @@ const CsvHomepage = () => {
 
         // Make the POST request with Axios
         const response = await axios.post(
-          `http://${REACT_APP_IP}:4000/compareData`,
+          `${process.env.REACT_APP_SERVER_IP}/compareData`,
           formData,
           {
             headers: {

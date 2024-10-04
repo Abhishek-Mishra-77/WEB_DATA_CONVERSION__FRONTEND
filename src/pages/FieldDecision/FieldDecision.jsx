@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { REACT_APP_IP, onGetTemplateHandler } from "../../services/common";
+import {  onGetTemplateHandler } from "../../services/common";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormField from "./FormField";
@@ -24,7 +24,7 @@ const FieldDecision = () => {
       try {
         const template = await onGetTemplateHandler();
         const response = await axios.get(
-          `http://${REACT_APP_IP}:4000/get/mappeddata/${id}`,
+          `${process.env.REACT_APP_SERVER_IP}/get/mappeddata/${id}`,
           {
             headers: {
               token: token,
@@ -118,7 +118,7 @@ const FieldDecision = () => {
     setLoading(true);
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/formcheckeddata`,
+        `${process.env.REACT_APP_SERVER_IP}/formcheckeddata`,
         { formCheckedData: checkedData, fileID: fileId },
         {
           headers: {

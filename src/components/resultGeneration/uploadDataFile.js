@@ -7,11 +7,10 @@ import OutPutHeaders from "./OutPutHeaders";
 import UploadStatus from "./uploadStatus";
 import PaperkeyMap from "./PaperKeyMap";
 import PaperQueMapper from "./PaperQueMapper";
-// import ResultGenerationContext from "../store/ResultGenerationContext";
 
 import { toast } from "react-toastify";
 import ResultGenerationContext from "../../Store/ResultGenerationContext";
-import { REACT_APP_IP } from "../../services/common";
+
 const UploadDataFile = () => {
   
   const ctx = useContext(ResultGenerationContext);
@@ -26,7 +25,7 @@ const UploadDataFile = () => {
     const formData = new FormData();
     formData.append("dataFile", e.target.files[0]);
     axios
-      .post(`http://${REACT_APP_IP}:4000/upload/data`, formData, {
+      .post(`${process.env.REACT_APP_SERVER_IP}/upload/data`, formData, {
         headers: {
           token: token,
         },
@@ -50,7 +49,7 @@ const UploadDataFile = () => {
     formData.append("keyFile", e.target.files[0]);
 
     axios
-      .post(`http://${REACT_APP_IP}:4000/upload/key`, formData, {
+      .post(`${process.env.REACT_APP_SERVER_IP}/upload/key`, formData, {
         headers: {
           token: token,
         },

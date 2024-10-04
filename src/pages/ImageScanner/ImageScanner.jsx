@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import dataContext from "../../Store/DataContext";
-import { REACT_APP_IP } from "../../services/common";
 import RemoveTemplate from "./RemoveTemplate";
 import TemplateData from "./TemplateData";
 import CoordinateData from "./CoordinateData";
@@ -411,7 +410,7 @@ const ImageScanner = () => {
 
     // Append the array of image files under the key "images"
     try {
-      await axios.post(`http://${REACT_APP_IP}:4000/add/templete`, formData, {
+      await axios.post(`${process.env.REACT_APP_SERVER_IP}/add/templete`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           token: token,

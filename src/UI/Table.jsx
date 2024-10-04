@@ -9,7 +9,6 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import { toast } from "react-toastify";
-import { REACT_APP_IP } from "../services/common";
 import axios from "axios";
 
 function createData(name, calories, fat, carbs, protein) {
@@ -91,7 +90,7 @@ const TableCol = (props) => {
     const { COLUMN_NAME } = data;
     const req = async () => {
       const response = await axios.post(
-        `http://${REACT_APP_IP}:4000/saveAnswer/${taskId}`,
+        `${process.env.REACT_APP_SERVER_IP}/saveAnswer/${taskId}`,
 
         {
           currentIndexValue: index,

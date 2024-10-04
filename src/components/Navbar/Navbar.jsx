@@ -6,7 +6,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import dataContext from "../../Store/DataContext";
 import axios from "axios";
-import { onGetVerifiedUserHandler, SERVER_IP } from "../../services/common";
+import { onGetVerifiedUserHandler } from "../../services/common";
 
 const menuItems = [
   {
@@ -43,10 +43,9 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const mainUrl = location.pathname?.slice(1)?.split("/");
-  // const userData = JSON.parse(localStorage.getItem("userData"));
   const [userData, setUserData] = useState({});
   const datactx = useContext(dataContext);
-  const token = JSON.parse(localStorage.getItem("userData"));
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -58,6 +57,7 @@ export default function Navbar() {
     };
     getUser();
   }, []);
+  
   useEffect(() => {
     if (userData && Object.keys(userData).length !== 0) {
       // if (userData.role === "Admin") {
@@ -111,7 +111,7 @@ export default function Navbar() {
       name: "Logout",
       onClick: async () => {
         try {
-          await axios.post(`${SERVER_IP}/users/logout`, {
+          await axios.post(`${process.env.REACT_APP_SERVER_IP}/users/logout`, {
             userId: userData.id,
           });
           localStorage.clear();

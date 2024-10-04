@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import ResultGenerationContext from "../../Store/ResultGenerationContext";
 import { toast } from "react-toastify";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import effect from "./backEffect.module.css";
+
 
 const SubjectWiseMarkApply = () => {
   const SubjectStartKey = useRef(-1);

@@ -6,7 +6,6 @@ import {
   onGetTaskHandler,
   onGetTemplateHandler,
   onGetVerifiedUserHandler,
-  REACT_APP_IP,
 } from "../../services/common";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -240,7 +239,7 @@ const DataMatching = () => {
 
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/updatecsvdata/${parseInt(currentTaskData?.fileId)}`,
+        `${process.env.REACT_APP_SERVER_IP}/updatecsvdata/${parseInt(currentTaskData?.fileId)}`,
         {
           updatedData: csvCurrentData,
           index: csvCurrentData.rowIndex + 1,
@@ -449,7 +448,7 @@ const DataMatching = () => {
       }
       setImageUrls(allImagePaths)
       await axios.post(
-        `http://${REACT_APP_IP}:4000/get/image`,
+        `${process.env.REACT_APP_SERVER_IP}/get/image`,
         {
           imageNameArray: allImagePaths,
           rowIndex: csvData[newIndex].rowIndex,
@@ -701,7 +700,7 @@ const DataMatching = () => {
   const onTaskStartHandler = async (taskData) => {
     try {
       const response = await axios.post(
-        `http://${REACT_APP_IP}:4000/get/csvdata`,
+        `${process.env.REACT_APP_SERVER_IP}/get/csvdata`,
         { taskData: taskData },
         {
           headers: {
@@ -744,7 +743,7 @@ const DataMatching = () => {
   const onCompleteHandler = async () => {
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/taskupdation/${parseInt(
+        `${process.env.REACT_APP_SERVER_IP}/taskupdation/${parseInt(
           currentTaskData?.id
         )}`,
         {

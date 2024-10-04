@@ -9,7 +9,6 @@ import {
   onGetTemplateHandler,
   onGetVerifiedUserHandler,
 } from "../../services/common";
-import { REACT_APP_IP } from "../../services/common";
 import TemplateRemove from "./TemplateRemove";
 import TemplateEdit from "./TemplateEdit";
 import UploadSection from "./UploadSection";
@@ -134,7 +133,7 @@ const CsvUploader = () => {
       const imageNamesString = imageNames.join(",");
 
       const response = await axios.post(
-        `http://${REACT_APP_IP}:4000/upload/${selectedId}?imageNames=${imageNamesString}`,
+        `${process.env.REACT_APP_SERVER_IP}/upload/${selectedId}?imageNames=${imageNamesString}`,
         formData,
         {
           headers: {
@@ -229,7 +228,7 @@ const CsvUploader = () => {
   const onTemplateEditHandler = async (id) => {
     try {
       const response = await axios.post(
-        `http://${REACT_APP_IP}:4000/edit/template/${id}`,
+        `${process.env.REACT_APP_SERVER_IP}/edit/template/${id}`,
         {},
         {
           headers: {
@@ -267,7 +266,7 @@ const CsvUploader = () => {
   const onTemplateRemoveHandler = async (id) => {
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/delete/template/${id}`,
+        `${process.env.REACT_APP_SERVER_IP}/delete/template/${id}`,
         {},
         {
           headers: {

@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { onGetTaskHandler } from "../../../services/common";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { REACT_APP_IP } from "../../../services/common";
 import { toast } from "react-toastify";
 import TaskDetails from "./TaskDetails";
 import UpdatedInfo from "./UpdatedInfo";
@@ -67,7 +66,7 @@ function UpdatedDetails() {
   const onUpdatedDetailsHandler = async (taskData) => {
     try {
       const response = await axios.post(
-        `http://${REACT_APP_IP}:4000/updated/details`,
+        `${process.env.REACT_APP_SERVER_IP}/updated/details`,
         { taskData },
         {
           headers: {
@@ -179,7 +178,7 @@ function UpdatedDetails() {
   const onVerifyDetailHandler = async () => {
     try {
       await axios.post(
-        `http://${REACT_APP_IP}:4000/verify/updateddetails`,
+        `${process.env.REACT_APP_SERVER_IP}/verify/updateddetails`,
         { updatedId: openImageDetails?.id },
         {
           headers: {

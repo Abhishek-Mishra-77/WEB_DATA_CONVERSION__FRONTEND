@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/images/image.png";
 import dataContext from "../../Store/DataContext";
-import { REACT_APP_IP } from "../../services/common";
-// import loginImage from "../../assets/images/file.png";
+
 
 export default function Login() {
   const [values, setValues] = useState({
@@ -23,7 +22,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://${REACT_APP_IP}:4000/users/login`,
+        `${process.env.REACT_APP_SERVER_IP}/users/login`,
         values
       );
 
