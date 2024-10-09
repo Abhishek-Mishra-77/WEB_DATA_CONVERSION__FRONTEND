@@ -18,6 +18,8 @@ function UpdatedDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [updatedImages, setUpdatedImages] = useState([]);
   const [openImageDetails, setImageDetails] = useState(null);
+  const [openCurrentDetails, setOpenCurrentDetails] = useState(false);
+  const [currentDetails, setCurrentDetails] = useState(null);
   let token = JSON.parse(localStorage.getItem("userData"));
   const [taskType, setTaskType] = useState("ALL")
   const { id } = useParams();
@@ -82,6 +84,8 @@ function UpdatedDetails() {
       console.log(error);
     }
   };
+
+
 
   const totalPages = Math.ceil(allTasks.length / rowsPerPage);
   const renderTableRows = () => {
@@ -203,18 +207,23 @@ function UpdatedDetails() {
     }
   };
 
+  console.log(openCurrentDetails)
+
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
       {isVisible ? (
-        <TaskDetails
-          onBackGroundClickHandler={onBackGroundClickHandler}
-          renderTableRows={renderTableRows}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          setTaskType={setTaskType}
-          taskType={taskType}
-        />
+        <Fragment>
+          <TaskDetails
+            onBackGroundClickHandler={onBackGroundClickHandler}
+            renderTableRows={renderTableRows}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setTaskType={setTaskType}
+            taskType={taskType}
+          />
+
+        </Fragment>
       ) : (
         <Fragment>
           <UpdatedInfo

@@ -57,23 +57,23 @@ const TaskDetails = ({ onBackGroundClickHandler, renderTableRows, setCurrentPage
                                 <div className="divide-y divide-gray-200 py-4 px-8">
                                     <div className="bg-gray-50 w-full">
                                         <div className="flex">
-                                            <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
-                                                <span>SN.</span>
+                                            <div className="py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                                                <span>Serial</span>
                                             </div>
-                                            <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                                            <div className="py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
                                                 Min
                                             </div>
-                                            <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                                            <div className="py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
                                                 Max
                                             </div>
-                                            <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                                            <div className="py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
                                                 Module
                                             </div>
-                                            <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                                            <div className="py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
                                                 Status
                                             </div>
-                                            <div className=" px-4 py-3.5 text-center text-xl font-semibold text-gray-700 w-[150px]">
-                                                UpdatedDetails
+                                            <div className="px-4 py-3.5 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                                                Updated
                                             </div>
                                         </div>
                                     </div>
