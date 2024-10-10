@@ -16,6 +16,7 @@ const CsvTaskStatus = () => {
     const [selectedHeader, setSelectedHeader] = useState("");
     const [selectedCsvId, setSelectedCsvId] = useState("");
     const [headerValue, setHeaderValue] = useState("");
+    const [csvDetails, setCsvDetails] = useState([]);
     const [loadingData, setLoadingData] = useState(false)
     const token = JSON.parse(localStorage.getItem("userData"));
 
@@ -81,7 +82,7 @@ const CsvTaskStatus = () => {
             toast.warning("Please enter the value");
         }
         try {
-            const reponse = await axios.post(`${process.env.REACT_APP_SERVER_IP}/gettaskstatusdetails/${selectedCsvId}`,
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_IP}/gettaskstatusdetails/${selectedCsvId}`,
                 {
                     selectedHeader: selectedHeader,
                     headerValue: headerValue
@@ -91,6 +92,13 @@ const CsvTaskStatus = () => {
                         token: token
                     }
                 })
+            console.log(response?.data)
+            if (response?.data === 0) {
+                toast.warning("No data found")
+                return;
+            }
+            setCsvDetails(response?.data)
+            setOpenDetails(true);
         }
         catch (error) {
             console.log(error)
@@ -100,10 +108,18 @@ const CsvTaskStatus = () => {
         }
     }
 
+
+    console.log(csvDetails)
+
     return (
         <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh]">
             {openDetails ?
-                <TaskUsersDetails />
+                <TaskUsersDetails
+                    csvDetails={csvDetails}
+                    setOpenDetails={setOpenDetails}
+                    selectedHeader={selectedHeader}
+                    headerValue={headerValue}
+                />
                 :
                 <SelectCsv
                     loadingTemplates={loadingTemplates}
