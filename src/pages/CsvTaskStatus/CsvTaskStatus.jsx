@@ -12,7 +12,12 @@ const CsvTaskStatus = () => {
     const [loadingTemplates, setLoadingTemplates] = useState(false);
     const [loadingCsv, setLoadingCsv] = useState(false);
     const [allSelectedCsv, setAllSelectedCsv] = useState([]);
+    const [csvHeaders, setCsvHeaders] = useState([]);
+    const [selectedHeader, setSelectedHeader] = useState("");
+    const [selectedCsvId, setSelectedCsvId] = useState("");
+    const [loadingData, setLoadingData] = useState(false)
     const token = JSON.parse(localStorage.getItem("userData"));
+
 
 
     useEffect(() => {
@@ -47,10 +52,39 @@ const CsvTaskStatus = () => {
         }
     }
 
-    const getCsvHeadersHandler = (id) => {
-        console.log(id);
-        setLoadingCsv(true);
-        setTimeout(() => setLoadingCsv(false), 5000);
+    const getCsvHeadersHandler = async (fileId) => {
+        setLoadingCsv(true)
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_SERVER_IP}/get/headerdata/${fileId}`,
+                {
+                    headers: {
+                        token: token,
+                    },
+                }
+            );
+            setSelectedCsvId(fileId)
+            setCsvHeaders(response.data.headers);
+        } catch (error) {
+            console.log(error);
+        }
+        finally {
+            setLoadingCsv(false)
+        }
+    };
+
+
+    const onGetAllTaskStatusHandler = () => {
+        setLoadingData(true);
+        try {
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+        finally {
+            setLoadingData(false);
+        }
     }
 
     return (
@@ -65,9 +99,12 @@ const CsvTaskStatus = () => {
                     onGetAllCsvHandler={onGetAllCsvHandler}
                     getCsvHeadersHandler={getCsvHeadersHandler}
                     allSelectedCsv={allSelectedCsv}
+                    csvHeaders={csvHeaders}
+                    setSelectedHeader={setSelectedHeader}
+                    selectedHeader={selectedHeader}
+                    onGetAllTaskStatusHandler={onGetAllTaskStatusHandler}
                 />}
         </div>
-
     )
 }
 
