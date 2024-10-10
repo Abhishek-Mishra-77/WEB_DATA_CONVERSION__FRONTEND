@@ -15,6 +15,7 @@ const CsvTaskStatus = () => {
     const [csvHeaders, setCsvHeaders] = useState([]);
     const [selectedHeader, setSelectedHeader] = useState("");
     const [selectedCsvId, setSelectedCsvId] = useState("");
+    const [headerValue, setHeaderValue] = useState("");
     const [loadingData, setLoadingData] = useState(false)
     const token = JSON.parse(localStorage.getItem("userData"));
 
@@ -74,10 +75,22 @@ const CsvTaskStatus = () => {
     };
 
 
-    const onGetAllTaskStatusHandler = () => {
+    const onGetAllTaskStatusHandler = async () => {
         setLoadingData(true);
+        if (headerValue === "") {
+            toast.warning("Please enter the value");
+        }
         try {
-
+            const reponse = await axios.post(`${process.env.REACT_APP_SERVER_IP}/gettaskstatusdetails/${selectedCsvId}`,
+                {
+                    selectedHeader: selectedHeader,
+                    headerValue: headerValue
+                },
+                {
+                    headers: {
+                        token: token
+                    }
+                })
         }
         catch (error) {
             console.log(error)
@@ -103,6 +116,9 @@ const CsvTaskStatus = () => {
                     setSelectedHeader={setSelectedHeader}
                     selectedHeader={selectedHeader}
                     onGetAllTaskStatusHandler={onGetAllTaskStatusHandler}
+                    loadingData={loadingData}
+                    headerValue={headerValue}
+                    setHeaderValue={setHeaderValue}
                 />}
         </div>
     )

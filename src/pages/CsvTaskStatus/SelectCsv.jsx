@@ -9,7 +9,10 @@ const SelectCsv = ({
     csvHeaders,
     setSelectedHeader,
     selectedHeader,
-    onGetAllTaskStatusHandler
+    onGetAllTaskStatusHandler,
+    loadingData,
+    headerValue,
+    setHeaderValue
 }) => {
     return (
         <div className="h-[100vh] flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 templatemapping ">
@@ -176,6 +179,8 @@ const SelectCsv = ({
                                     >
                                         <input
                                             type="text"
+                                            value={headerValue}
+                                            onChange={(e) => setHeaderValue(e.target.value)}
                                             id="Username"
                                             className="peer px-4  py-2 border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
                                             placeholder="Username"
@@ -187,8 +192,26 @@ const SelectCsv = ({
                                             {selectedHeader}
                                         </span>
                                     </label>
-                                    <button onClick={onGetAllTaskStatusHandler} className="ml-3 mt-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                        Find Details
+                                    <button
+                                        onClick={onGetAllTaskStatusHandler}
+                                        className="ml-3 mt-2 flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                        disabled={loadingData}
+                                    >
+                                        {loadingData && <svg
+                                            className="animate-spin h-5 w-5 text-white mr-2"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" strokeWidth="4" />
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V4a10 10 0 00-10 10h2z"
+                                            />
+                                        </svg>}
+                                        {loadingData ? "Loading..." : "Find Details"}
                                     </button>
                                 </div>
                             </div>
