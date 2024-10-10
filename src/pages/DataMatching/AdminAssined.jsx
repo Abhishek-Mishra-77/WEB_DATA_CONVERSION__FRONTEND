@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import AdminMatchingTasks from "./AdminMatchingTasks";
 import AdminCompareTasks from "./AdminCompareTasks";
 import TaskEdit from "./TaskEdit";
+import { useNavigate } from "react-router-dom";
 
 const AdminAssined = () => {
   const [compareTask, setCompareTask] = useState([]);
@@ -18,6 +19,7 @@ const AdminAssined = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [taskEditId, setTaskEditId] = useState("");
   const [taskType, setTaskType] = useState("ALL")
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -302,13 +304,22 @@ const AdminAssined = () => {
     }
   };
 
+
+
   return (
-    <div className="h-[100vh] flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 templatemapping pt-20">
+    <div className="h-[100vh] flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 templatemapping ">
       <div className="">
         {/* MAIN SECTION  */}
         <section className=" lg:mx-auto max-w-6xl px-8 py-10 bg-white rounded-xl w-[100vw]">
-          <div>
+          <div className="flex flex-col space-y-4  md:flex-row md:items-center md:justify-between md:space-y-0">
             <h2 className="text-3xl font-semibold">Assigned Tasks</h2>
+            <div onClick={() => navigate("/datamatching/csvtaskstatus")}>
+              <button
+                className={`shrink-0 rounded-lg p-2 text-sm border-2 font-medium  hover:bg-sky-100 hover:text-gray-700`}
+              >
+                Find Task Status
+              </button>
+            </div>
           </div>
           <div>
             <div className="hidden sm:block mt-4">
