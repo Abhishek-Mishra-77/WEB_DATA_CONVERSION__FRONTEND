@@ -79,8 +79,6 @@ const SelectCsv = ({
                                     )}
                                 </div>
                             </div>
-
-
                         </div>
 
                         {/* Second Dropdown for CSV Selection */}

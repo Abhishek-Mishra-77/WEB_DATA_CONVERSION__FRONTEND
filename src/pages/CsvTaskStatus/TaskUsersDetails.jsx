@@ -75,7 +75,7 @@ const TaskUsersDetails = ({
                                         <tr className="border-b border-gray-300 ">
                                             <th className="px-4 py-2 font-semibold text-sm">Name</th>
                                             <th className="px-4 py-2 font-semibold text-center  text-sm">Email</th>
-                                            <th className="px-4 py-2 text-center font-semibold text-sm">Total Count</th>
+                                            <th className="px-4 py-2 text-center font-semibold text-sm">Total Updated Data</th>
                                         </tr>
                                     </thead>
                                     <tbody>
