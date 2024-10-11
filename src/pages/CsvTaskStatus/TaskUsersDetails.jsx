@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaAngleDoubleLeft } from "react-icons/fa";
 
 const TaskUsersDetails = ({
     csvDetails,
@@ -30,13 +31,14 @@ const TaskUsersDetails = ({
     return (
         <div className="flex flex-col justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 templatemapping min-h-[100vh]">
             <div className="w-full max-w-6xl px-8 py-10 bg-white rounded-xl shadow-lg">
+                <span onClick={() => setOpenDetails(false)} className="cursor-pointer"><FaAngleDoubleLeft className='cursor-pointer text-3xl' /></span>
                 <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
                     <div className="mx-auto max-w-3xl text-center mb-10">
                         <h2 className="text-2xl font-bold text-gray-800 sm:text-3xl">
                             CSV Data Overview
                         </h2>
                         <p className="mt-2 text-base text-gray-500">
-                            Showing data for <span className="font-semibold text-blue-600">{selectedHeader}</span> with value <span className="font-semibold text-blue-600">{headerValue}</span>
+                            Showing header for <span className="font-semibold text-blue-600">{selectedHeader}</span> with code <span className="font-semibold text-blue-600">{headerValue}</span>
                         </p>
                     </div>
 
