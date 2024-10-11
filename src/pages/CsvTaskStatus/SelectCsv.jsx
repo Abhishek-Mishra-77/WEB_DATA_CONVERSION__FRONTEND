@@ -12,7 +12,7 @@ const SelectCsv = ({
     onGetAllTaskStatusHandler,
     loadingData,
     headerValue,
-    setHeaderValue
+    setHeaderValue,
 }) => {
     return (
         <div className="h-[100vh] flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 templatemapping ">
@@ -33,7 +33,7 @@ const SelectCsv = ({
                                         }
                                     }}
                                     className="block w-full px-4 py-3 pr-8 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    disabled={loadingTemplates}  // Disable select when loading is true
+                                    disabled={loadingTemplates} 
                                 >
                                     <option value="Select Template">Select Template</option>
                                     {templates.map((template) => (
@@ -47,7 +47,7 @@ const SelectCsv = ({
                                 <div className="absolute inset-y-0 right-0 flex items-center px-8">
                                     {loadingTemplates ? (
                                         <svg
-                                            className="animate-spin h-8 w-8 text-blue-500" // Larger size (h-8 w-8)
+                                            className="animate-spin h-8 w-8 text-blue-500" 
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
                                             viewBox="0 0 24 24"

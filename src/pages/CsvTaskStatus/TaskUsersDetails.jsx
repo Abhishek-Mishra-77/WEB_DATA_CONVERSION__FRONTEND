@@ -5,12 +5,13 @@ const TaskUsersDetails = ({
     csvDetails,
     setOpenDetails,
     selectedHeader,
-    headerValue
+    headerValue,
+    setIsDetailsView,
+    setIsUserTaskView
 }) => {
 
 
     const hasUserDetailsKey = csvDetails && csvDetails?.some((item) => item.hasOwnProperty('User Details'));
-
     const userDetailCounts = {};
     let uncompletedDataCount = 0;
 
@@ -76,6 +77,8 @@ const TaskUsersDetails = ({
                                             <th className="px-4 py-2 font-semibold text-sm">Name</th>
                                             <th className="px-4 py-2 font-semibold text-center  text-sm">Email</th>
                                             <th className="px-4 py-2 text-center font-semibold text-sm">Total Updated Data</th>
+                                            <th className="px-4 py-2 text-center font-semibold text-sm">User Details</th>
+                                            <th className="px-4 py-2 text-center font-semibold text-sm">Tasks</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -90,6 +93,54 @@ const TaskUsersDetails = ({
                                                 <td className="px-4 py-2 text-center text-sm text-gray-700">
                                                     {count}
                                                 </td>
+                                                <td className="text-center text-sm text-gray-700 p-2">
+                                                    <button
+                                                        onClick={() => setIsDetailsView(true)}
+                                                        className="inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-4 p-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                                                    >
+                                                        <span className="text-sm font-medium"> Details </span>
+
+                                                        <svg
+                                                            className="size-5 rtl:rotate-180"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                                <td className="text-center text-sm text-gray-700 p-2">
+                                                    <button
+                                                    onClick={() => setIsUserTaskView(true)}
+                                                        className="inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-4 p-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                                                    >
+                                                        <span className="text-sm font-medium"> Tasks </span>
+
+                                                        <svg
+                                                            className="size-5 rtl:rotate-180"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </td>
+
+
                                             </tr>
                                         ))}
                                     </tbody>

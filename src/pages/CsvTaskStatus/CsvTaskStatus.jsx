@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import SelectCsv from './SelectCsv'
 import TaskUsersDetails from './TaskUsersDetails';
 import { onGetTemplateHandler } from '../../services/common';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import UserDetailsModal from './UserDetailsModal';
+import UserTaskDetails from './UserTaskDetails';
 
 
 const CsvTaskStatus = () => {
@@ -18,7 +20,10 @@ const CsvTaskStatus = () => {
     const [headerValue, setHeaderValue] = useState("");
     const [csvDetails, setCsvDetails] = useState([]);
     const [loadingData, setLoadingData] = useState(false)
+    const [isDetailsView, setIsDetailsView] = useState(false);
+    const [isUserTaskView, setIsUserTaskView] = useState(false);
     const token = JSON.parse(localStorage.getItem("userData"));
+
 
 
 
@@ -123,12 +128,19 @@ const CsvTaskStatus = () => {
     return (
         <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-16">
             {openDetails ?
-                <TaskUsersDetails
-                    csvDetails={csvDetails}
-                    setOpenDetails={setOpenDetails}
-                    selectedHeader={selectedHeader}
-                    headerValue={headerValue}
-                />
+                <Fragment>
+                    <TaskUsersDetails
+                        csvDetails={csvDetails}
+                        setOpenDetails={setOpenDetails}
+                        selectedHeader={selectedHeader}
+                        headerValue={headerValue}
+                        setIsDetailsView={setIsDetailsView}
+                        setIsUserTaskView={setIsUserTaskView}
+                    />
+
+                    {isDetailsView && <UserDetailsModal setIsDetailsView={setIsDetailsView} />}
+                    {isUserTaskView && <UserTaskDetails setIsUserTaskView={setIsUserTaskView} />}
+                </Fragment>
                 :
                 <SelectCsv
                     loadingTemplates={loadingTemplates}
