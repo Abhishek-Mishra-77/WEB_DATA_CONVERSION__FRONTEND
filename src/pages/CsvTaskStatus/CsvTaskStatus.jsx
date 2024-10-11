@@ -78,9 +78,13 @@ const CsvTaskStatus = () => {
 
     const onGetAllTaskStatusHandler = async () => {
         setLoadingData(true);
+
         if (headerValue === "") {
             toast.warning("Please enter the value");
+            setLoadingData(false);
+            return; // Exit the function early if no header value is provided
         }
+
         try {
             const response = await axios.post(`${process.env.REACT_APP_SERVER_IP}/gettaskstatusdetails/${selectedCsvId}`,
                 {
@@ -91,28 +95,33 @@ const CsvTaskStatus = () => {
                     headers: {
                         token: token
                     }
-                })
-            console.log(response?.data)
-            if (response?.data === 0) {
-                toast.warning("No data found")
+                });
+
+            // Check if the response contains valid data
+            if (!response?.data || response.data.length === 0) {
+                toast.warning("No data found");
+                setCsvDetails([]); // Clear previous data if no data is found
+                setOpenDetails(false); // Optionally close details view
                 return;
             }
-            setCsvDetails(response?.data)
+
+            // Assuming the response contains valid data
+            setCsvDetails(response.data);
             setOpenDetails(true);
         }
         catch (error) {
-            console.log(error)
+            console.log("Error fetching task status details:", error);
+            toast.error("Error fetching data. Please try again later.");
         }
         finally {
             setLoadingData(false);
         }
-    }
+    };
 
 
-    console.log(csvDetails)
 
     return (
-        <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh]">
+        <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-16">
             {openDetails ?
                 <TaskUsersDetails
                     csvDetails={csvDetails}
