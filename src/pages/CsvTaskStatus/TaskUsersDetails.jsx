@@ -27,9 +27,6 @@ const TaskUsersDetails = ({
     });
 
 
-    console.log(uncompletedDataCount)
-
-
     return (
         <div className="flex flex-col justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 templatemapping min-h-[100vh]">
             <div className="w-full max-w-6xl px-8 py-10 bg-white rounded-xl shadow-lg">
@@ -73,21 +70,24 @@ const TaskUsersDetails = ({
                             <div className="max-h-[300px] overflow-y-auto">
                                 <table className="w-full text-left table-auto border-collapse">
                                     <thead className="bg-blue-200 text-blue-800">
-                                        <tr className="text-left border-b border-gray-300">
-                                            <th className="px-4 py-2 font-semibold text-sm">User Name / Email</th>
+                                        <tr className="border-b border-gray-300 ">
+                                            <th className="px-4 py-2 font-semibold text-sm">Name</th>
+                                            <th className="px-4 py-2 font-semibold text-center  text-sm">Email</th>
                                             <th className="px-4 py-2 text-center font-semibold text-sm">Total Count</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {Object.entries(userDetailCounts).map(([userDetail, count], idx) => (
-                                            <tr key={idx} className={`bg-white border-b border-gray-200`}>
+                                            <tr key={idx} className={`bg-white cursor-pointer border-b border-gray-200`}>
                                                 <td className="px-4 py-2 text-sm text-gray-700">
-                                                    {userDetail}
+                                                    {userDetail && userDetail?.split(':')[0]}
+                                                </td>
+                                                <td className="px-4 py-2 text-center text-sm text-gray-700">
+                                                    {userDetail && userDetail?.split(':')[1]}
                                                 </td>
                                                 <td className="px-4 py-2 text-center text-sm text-gray-700">
                                                     {count}
                                                 </td>
-
                                             </tr>
                                         ))}
                                     </tbody>
