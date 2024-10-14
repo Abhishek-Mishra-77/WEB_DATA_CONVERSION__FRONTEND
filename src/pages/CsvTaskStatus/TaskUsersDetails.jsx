@@ -6,8 +6,8 @@ const TaskUsersDetails = ({
     setOpenDetails,
     selectedHeader,
     headerValue,
-    setIsDetailsView,
-    setIsUserTaskView
+    onGetUserDetailsHandler,
+    onGetUserTaskDetailsHandler
 }) => {
 
 
@@ -95,11 +95,10 @@ const TaskUsersDetails = ({
                                                 </td>
                                                 <td className="text-center text-sm text-gray-700 p-2">
                                                     <button
-                                                        onClick={() => setIsDetailsView(true)}
+                                                        onClick={() => onGetUserDetailsHandler(userDetail?.split(':')[1])}
                                                         className="inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-4 p-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                                                     >
                                                         <span className="text-sm font-medium"> Details </span>
-
                                                         <svg
                                                             className="size-5 rtl:rotate-180"
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +117,7 @@ const TaskUsersDetails = ({
                                                 </td>
                                                 <td className="text-center text-sm text-gray-700 p-2">
                                                     <button
-                                                    onClick={() => setIsUserTaskView(true)}
+                                                        onClick={() => onGetUserTaskDetailsHandler(userDetail?.split(':')[1])}
                                                         className="inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-4 p-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                                                     >
                                                         <span className="text-sm font-medium"> Tasks </span>
@@ -139,8 +138,6 @@ const TaskUsersDetails = ({
                                                         </svg>
                                                     </button>
                                                 </td>
-
-
                                             </tr>
                                         ))}
                                     </tbody>

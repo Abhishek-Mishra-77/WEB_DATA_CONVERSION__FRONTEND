@@ -22,9 +22,9 @@ const CsvTaskStatus = () => {
     const [loadingData, setLoadingData] = useState(false)
     const [isDetailsView, setIsDetailsView] = useState(false);
     const [isUserTaskView, setIsUserTaskView] = useState(false);
+    const [userDetails, setUserDetails] = useState([]);
+    const [userTaskDetails, setUserTaskDetails] = useState([]);
     const token = JSON.parse(localStorage.getItem("userData"));
-
-
 
 
     useEffect(() => {
@@ -123,6 +123,62 @@ const CsvTaskStatus = () => {
         }
     };
 
+    const onGetUserDetailsHandler = async (email) => {
+        if (!email) {
+            toast.warning("Please enter the email");
+            return;
+        }
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_SERVER_IP}/users/getuseractivitydetails/${email}`,
+                {
+                    headers: {
+                        token: token
+                    }
+                }
+            );
+            if (response?.data?.data?.length === 0) {
+                toast.warning("No data found");
+                setUserDetails([]);
+                return;
+            }
+            setUserDetails(response?.data?.data);
+            setIsDetailsView(true);
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.error || 'Something went wrong!');
+        }
+    };
+
+
+    const onGetUserTaskDetailsHandler = async (email) => {
+        if (!email) {
+            toast.warning("Please enter the email");
+            return;
+        }
+
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_SERVER_IP}/get/usertaskdetails/${email}`,
+                {
+                    headers: {
+                        token: token
+                    }
+                }
+            );
+            if (response?.data?.length === 0) {
+                toast.warning("No data found");
+                setUserTaskDetails([]);
+                return;
+            }
+            setUserTaskDetails(response?.data);
+            setIsUserTaskView(true);
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.error || 'Something went wrong!');
+        }
+    }
 
 
     return (
@@ -134,12 +190,19 @@ const CsvTaskStatus = () => {
                         setOpenDetails={setOpenDetails}
                         selectedHeader={selectedHeader}
                         headerValue={headerValue}
-                        setIsDetailsView={setIsDetailsView}
                         setIsUserTaskView={setIsUserTaskView}
+                        onGetUserDetailsHandler={onGetUserDetailsHandler}
+                        onGetUserTaskDetailsHandler={onGetUserTaskDetailsHandler}
                     />
 
-                    {isDetailsView && <UserDetailsModal setIsDetailsView={setIsDetailsView} />}
-                    {isUserTaskView && <UserTaskDetails setIsUserTaskView={setIsUserTaskView} />}
+                    {isDetailsView && <UserDetailsModal
+                        userDetails={userDetails}
+                        setIsDetailsView={setIsDetailsView}
+                    />}
+                    {isUserTaskView && <UserTaskDetails
+                        userTaskDetails={userTaskDetails}
+                        setIsUserTaskView={setIsUserTaskView}
+                    />}
                 </Fragment>
                 :
                 <SelectCsv
