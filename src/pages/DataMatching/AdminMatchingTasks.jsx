@@ -8,17 +8,35 @@ const AdminMatchingTasks = ({
   onDownloadHandler,
   setTaskEdit,
   setTaskEditId,
-  taskType
+  taskType,
+  selectedDate
 }) => {
 
-  const filteredTasks = taskType === "ALL"
-    ? matchingTask
-    : taskType === "pending"
-      ? matchingTask?.filter(task => task?.taskStatus === false)
-      : taskType === "completed"
-        ? matchingTask?.filter(task => task?.taskStatus === true)
-        : matchingTask;
+  const onFilteredTasksHandler = (tasks) => {
+    let filterdTaskData = tasks;
+    if (taskType !== "ALL") {
+      if (taskType === "pending") {
+        filterdTaskData = tasks?.filter(task => task?.taskStatus === false);
+      }
+      else if (taskType === "completed") {
+        filterdTaskData = tasks?.filter(task => task?.taskStatus === true);
+      }
+    }
 
+    if (selectedDate) {
+      filterdTaskData = tasks.filter((item) => {
+        const itemDate = new Date(item.createdAt).toLocaleDateString("en-GB");
+        const selectedDateFormatted = new Date(selectedDate).toLocaleDateString(
+          "en-GB"
+        );
+        return itemDate === selectedDateFormatted;
+      });
+    }
+    return filterdTaskData;
+
+  }
+
+  const filteredTasks = onFilteredTasksHandler(matchingTask);
 
 
   return (

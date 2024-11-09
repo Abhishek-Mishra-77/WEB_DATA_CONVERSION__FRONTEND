@@ -18,6 +18,7 @@ const AdminAssined = () => {
   const [taskEdit, setTaskEdit] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
   const [taskEditId, setTaskEditId] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const [taskType, setTaskType] = useState("ALL")
   const navigate = useNavigate();
 
@@ -125,6 +126,7 @@ const AdminAssined = () => {
 
     onFetchTasksData();
   }, []);
+
 
   const convertToCsv = (jsonData) => {
     const headers = Object.keys(jsonData[0]);
@@ -325,26 +327,45 @@ const AdminAssined = () => {
             <div className="hidden sm:block mt-4">
               <nav className="flex gap-6" aria-label="Tabs">
                 <button
-                  onClick={() => setTaskType("All")}
+                  onClick={() => {
+                    setTaskType("All")
+                    setSelectedDate("")
+                  }}
                   className={`shrink-0 rounded-lg p-2 text-sm border-2 font-medium ${taskType === "All" && "bg-sky-100 text-sky-600"} hover:bg-sky-100 hover:text-gray-700`}
                 >
                   ALL TASKS
                 </button>
 
                 <button
-                  onClick={() => setTaskType("completed")}
+                  onClick={() => {
+                    setTaskType("completed")
+                    setSelectedDate("")
+                  }}
                   className={`shrink-0 rounded-lg p-2 text-sm border-2  font-medium ${taskType === "completed" && "bg-sky-100 text-sky-600"} hover:bg-sky-100 hover:text-gray-700`}
                 >
                   COMPLETED
                 </button>
 
                 <button
-                  onClick={() => setTaskType("pending")}
+                  onClick={() => {
+                    setTaskType("pending")
+                    setSelectedDate("")
+                  }}
                   className={`shrink-0 rounded-lg border-2  ${taskType === "pending" && "bg-sky-100 text-sky-600"} p-2 text-sm font-medium hover:bg-sky-100`}
                   aria-current="page"
                 >
                   PENDING
                 </button>
+
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => {
+                    setSelectedDate(e.target.value)
+                    setTaskType("")
+                  }}
+                  className="ml-2 p-2 border rounded-lg text-sm"
+                />
               </nav>
             </div>
           </div>
@@ -397,6 +418,7 @@ const AdminAssined = () => {
                         onDownloadHandler={onDownloadHandler}
                         setTaskEditId={setTaskEditId}
                         taskType={taskType}
+                        selectedDate={selectedDate}
                       />
                     </div>
                   </div>
